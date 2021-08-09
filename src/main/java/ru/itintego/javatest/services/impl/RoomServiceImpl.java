@@ -1,9 +1,10 @@
-package ru.itintego.javatest.services;
+package ru.itintego.javatest.services.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.repositories.RoomRepository;
+import ru.itintego.javatest.services.RoomService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

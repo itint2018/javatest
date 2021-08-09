@@ -31,4 +31,10 @@ public class HomeController {
         logger.info("Getting from repo {}", rooms);
         return modelAndView;
     }
+
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        ModelAndView modelAndView = new ModelAndView("login");
+        return modelAndView;
+    }
 }

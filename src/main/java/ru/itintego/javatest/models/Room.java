@@ -1,5 +1,6 @@
 package ru.itintego.javatest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Room extends SuperEntity {
     @JsonIgnoreProperties({"name", "rooms"})
     private Set<OptionsRoom> optionsRooms;
 
+    @JsonIgnore
     public String getOptionsRoomString() {
         return optionsRooms.stream().map(OptionsRoom::getName).collect(Collectors.joining(", "));
     }

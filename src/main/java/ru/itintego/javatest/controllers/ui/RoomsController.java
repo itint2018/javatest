@@ -7,7 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.services.RoomService;
 
-@Controller("/rooms")
+@Controller
+@RequestMapping("/rooms/")
 public class RoomsController {
     private final RoomService roomService;
 
@@ -15,7 +16,7 @@ public class RoomsController {
         this.roomService = roomService;
     }
 
-    @RequestMapping("/new")
+    @RequestMapping("new")
     public ModelAndView newRoom() {
         ModelAndView modelAndView = new ModelAndView("rooms_new");
         return modelAndView;

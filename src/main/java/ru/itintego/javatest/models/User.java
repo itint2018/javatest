@@ -30,8 +30,10 @@ public class User extends SuperEntity {
 
     @Column(name = "first_name", length = 100)
     private String firstName;
+    @Column(name = "enabled")
+    private Boolean enabled;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_id"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_id"))
