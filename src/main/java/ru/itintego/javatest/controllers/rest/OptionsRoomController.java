@@ -1,9 +1,12 @@
 package ru.itintego.javatest.controllers.rest;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itintego.javatest.models.OptionsRoom;
 import ru.itintego.javatest.repositories.OptionsRoomRepository;
+import ru.itintego.javatest.repositories.RoomRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -12,9 +15,11 @@ import java.util.List;
 @RequestMapping("/api/options_room")
 public class OptionsRoomController implements DataController<OptionsRoom, Long> {
     private final OptionsRoomRepository optionsRoomRepository;
+    private final RoomRepository roomRepository;
 
-    public OptionsRoomController(OptionsRoomRepository optionsRoomRepository) {
+    public OptionsRoomController(OptionsRoomRepository optionsRoomRepository, RoomRepository roomRepository) {
         this.optionsRoomRepository = optionsRoomRepository;
+        this.roomRepository = roomRepository;
     }
 
     @Override
@@ -42,5 +47,10 @@ public class OptionsRoomController implements DataController<OptionsRoom, Long> 
     @Override
     public void delete(Long aLong) {
         optionsRoomRepository.deleteById(aLong);
+    }
+
+    @GetMapping("/room/{id}")
+    public List<OptionsRoom> getOptionsRoomWhereRoomId(@PathVariable("id") Long id) {
+        return optionsRoomRepository.findAllByRooms(roomRepository.getById(id));
     }
 }

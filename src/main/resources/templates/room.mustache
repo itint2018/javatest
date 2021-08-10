@@ -6,13 +6,37 @@
 </head>
 <body>
 <div class="container">
-    <H1>Room</H1>
     {{#room}}
-        <div>{{id}}</div>
-        <div>{{name}}</div>
-        <div>{{description}}</div>
-        <div></div>
+        <h1>{{name}}</h1>
+        <div class="card" onclick="location.href='/rooms/{{id}}'">
+            <div class="card-body">
+                <p>{{countOfPlaces}} мест</p>
+                <p>{{description}}</p>
+            </div>
+        </div>
     {{/room}}
+    <div class="card">
+        <table class="table">
+            <thead>
+            <th scope="col">Сотрудник</th>
+            <th scope="col">Офис менеджер</th>
+            <th scope="col">Начало</th>
+            <th scope="col">Конец</th>
+            <th scope="col">Описание</th>
+            </thead>
+            <tbody>
+            {{#roomDetail}}
+                <tr scope="row">
+                    <th>{{user}}</th>
+                    <th>{{proof}}</th>
+                    <th>{{start}}</th>
+                    <th>{{end}}</th>
+                    <th>{{description}}</th>
+                </tr>
+            {{/roomDetail}}
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

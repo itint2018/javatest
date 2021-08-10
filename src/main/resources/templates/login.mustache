@@ -7,14 +7,14 @@
 <body>
 <div class="container">
     <H1>Login</H1>
-    <form action="/api/login" name="autfr" onsubmit="OnSubmit(this);return false;" method="post">
+    <form action="/api/login" name="autfr" onsubmit="OnSubmit(this);" method="post">
         <div class="mb-3">
             <label for="login" class="form-label">User name</label>
             <input type="text" class="form-control" name="login" autofocus><br>
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control"
                    name="password"><br>
-            <input type="submit" class="btn btn-secondary" value="Enter" name="subbut"><br>
+            <input type="button" class="btn btn-secondary" value="Enter" name="subbut" onclick="OnSubmit()">
         </div>
     </form>
 

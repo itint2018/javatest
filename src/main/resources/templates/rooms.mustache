@@ -1,0 +1,19 @@
+{{#rooms}}
+    <li style="list-style-type:none">
+        <ul>
+            <div class="card" onclick="location.href='/rooms/{{id}}'">
+                <div class="card-body">
+                    <div>
+                        <h5 style="justify-content: space-between">{{name}}
+                            {{#optionsRooms}}
+                                <img src="/images/{{name}}.png" alt="{{name}}"/>
+                            {{/optionsRooms}}
+                        </h5>
+                    </div>
+                    <p>{{countOfPlaces}} мест</p>
+                    <p>{{description}}</p>
+                </div>
+            </div>
+        </ul>
+    </li>
+{{/rooms}}

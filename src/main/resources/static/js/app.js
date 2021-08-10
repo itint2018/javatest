@@ -1,24 +1,23 @@
 function OnSubmit(param) {
-    let json = "{"
-    for (let i = 0; i < param.length; i++) {
-        let element = param.elements[i];
-        let s = "\"" + element.name + "\":\"";
+    let formData = new FormData(param)
+    let json1 = new Map([])
+    formData.forEach((value, key, parent) => {
         if (element.type === "password") {
-            json += s + md5(element.value) + "\","
+            json1[key] = md5(element.value)
         } else {
-            json += s + element.value + "\","
+            json1[key] = value
         }
-    }
-    json = json.slice(0, -1) + "}"
-    console.log(json)
+    })
+    let data = Object.fromEntries(json1)
     fetch(param.action, {
         method: param.method,
         headers: {
             'Content-Type': 'application/json'
-        }, body: json
+        }, body: JSON.stringify(json1)
     }).then(response => {
         return response.json()
     }).then(json1 => {
         console.log(json1)
-    })
+    }).catch(e => console.log(e))
+    return false
 }

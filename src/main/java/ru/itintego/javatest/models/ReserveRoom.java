@@ -30,4 +30,5 @@ public class ReserveRoom extends SuperEntity {
     private User proof;
     private LocalDateTime start;
     private LocalDateTime end;
+    private String description;
 }

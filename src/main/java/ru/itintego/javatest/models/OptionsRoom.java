@@ -18,6 +18,7 @@ import java.util.Set;
 public class OptionsRoom extends SuperEntity {
 
     private String name;
+    private String icon;
 
     @ManyToMany(mappedBy = "optionsRooms")
     @JsonBackReference

@@ -57,25 +57,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
-                .failureForwardUrl("/login?error=true")
-                .and()
-                .logout()
-                .logoutUrl("/perform_logout")
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.csrf().disable()
+//                .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("/login")
+//                .defaultSuccessUrl("/")
+//                .failureForwardUrl("/login?error=true")
+//                .and()
+//                .logout()
+//                .logoutUrl("/perform_logout")
+//                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/api/login").permitAll()
+//                .antMatchers("/login").permitAll()
+//                .antMatchers("/swagger-ui.html").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     public void configure(WebSecurity security) {
