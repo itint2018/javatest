@@ -1,16 +1,13 @@
-<html>
-<head>
-    <title>Переговорные</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
+{{>header}}
+<div class="container-fluid">
     <h2 class="text-center text-capitalize">Комнаты</h2>
-    <button type="button" class="btn btn-primary" style="margin-left: auto" onclick="location.href='/rooms/new'">Добавить комнату</button>
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" style="margin-left: auto" onclick="location.href='/rooms/new'">
+            Добавить комнату
+        </button>
+    </div>
     <div style="margin-top: .5rem">
         {{>rooms}}
     </div>
 </div>
-</body>
-</html>
+{{>footer}}

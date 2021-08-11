@@ -1,22 +1,35 @@
-<html>
-<head>
-    <title>Переговорные</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
-    {{#room}}
-        <h1>{{name}}</h1>
-        <div class="card" onclick="location.href='/rooms/{{id}}'">
+{{>header}}
+{{#room}}
+    <div class="container-fluid">
+        <h2 class="text-center text-capitalize">{{name}}</h2>
+        <div class="card shadow" style="margin-top: 1rem">
             <div class="card-body">
                 <p>{{countOfPlaces}} мест</p>
                 <p>{{description}}</p>
+
+                <table class="table">
+                    <thead>
+                    <th scope="col"></th>
+                    <th scope="col">В комнате имеется</th>
+                    </thead>
+                    <tbody>
+                    {{#optionsRooms}}
+                        <tr scope="row">
+                            <th><img src="/images/{{name}}.png" alt="{{name}}"/></th>
+                            <th>{{localizedName}}</th>
+                        </tr>
+                    {{/optionsRooms}}
+                    </tbody>
+
+                </table>
             </div>
         </div>
-    {{/room}}
-    <div class="card">
-        <table class="table">
+    </div>
+{{/room}}
+
+<div class="card shadow" style="margin-top: 1rem">
+    {{^roomDetail.isEmpty}}
+        <table class="table" style="margin-top: .5rem">
             <thead>
             <th scope="col">Сотрудник</th>
             <th scope="col">Офис менеджер</th>
@@ -36,7 +49,12 @@
             {{/roomDetail}}
             </tbody>
         </table>
+    {{/roomDetail.isEmpty}}
+    {{#roomDetail.isEmpty}}
+        <h5 class="text-center">Список пуст</h5>
+    {{/roomDetail.isEmpty}}
+    <div class="d-flex justify-content-end" style="margin-top: .5rem">
+        <button class="btn btn-primary" onclick="location.href='/rooms/{{id}}/reserve'">Забронировать</button>
     </div>
 </div>
-</body>
-</html>
+{{>footer}}

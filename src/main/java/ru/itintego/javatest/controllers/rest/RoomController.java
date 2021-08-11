@@ -1,7 +1,9 @@
 package ru.itintego.javatest.controllers.rest;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.springframework.web.bind.annotation.*;
+import ru.itintego.javatest.dto.ReserveDto;
+import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.repositories.RoomRepository;
 
@@ -12,9 +14,11 @@ import java.util.List;
 @RequestMapping("/api/rooms")
 public class RoomController implements DataController<Room, Long> {
     private final RoomRepository roomRepository;
+    private final Logger logger;
 
-    public RoomController(RoomRepository roomRepository) {
+    public RoomController(RoomRepository roomRepository, Logger logger) {
         this.roomRepository = roomRepository;
+        this.logger = logger;
     }
 
     @Override
@@ -30,6 +34,12 @@ public class RoomController implements DataController<Room, Long> {
     @Override
     public Room save(Room room) {
         return roomRepository.save(room);
+    }
+
+    @RequestMapping(value = "/{id}/reserve/", method = RequestMethod.POST)
+    public ReserveRoom save(@PathVariable("id") Integer id, @RequestBody ReserveDto reserveDto) {
+        logger.info("reserve dto {}, id {}", reserveDto, id);
+        return new ReserveRoom();
     }
 
     @Override

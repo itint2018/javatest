@@ -9,6 +9,9 @@ import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.services.RoomService;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +39,7 @@ public class RoomsController {
         List<ReserveRoomDto> roomDetail = reserveRoomRepository.findAllByRoom(room).stream().map(ReserveRoomDto::new).collect(Collectors.toList());
         modelAndView.addObject("room", room);
         modelAndView.addObject("roomDetail", roomDetail);
+        modelAndView.addObject("header", room.getName());
         return modelAndView;
     }
 
@@ -44,6 +48,16 @@ public class RoomsController {
         ModelAndView modelAndView = new ModelAndView("rooms");
         List<Room> rooms = roomService.findAll();
         modelAndView.addObject("rooms", rooms);
+        modelAndView.addObject("header", "Комнаты");
+        return modelAndView;
+    }
+
+    @RequestMapping("{id}/reserve")
+    public ModelAndView reserveRoom(@PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("reserve_room");
+        modelAndView.addObject("header", "Зарезервировать комнату");
+        modelAndView.addObject("minDate", LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        modelAndView.addObject("minTime", LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME));
         return modelAndView;
     }
 }

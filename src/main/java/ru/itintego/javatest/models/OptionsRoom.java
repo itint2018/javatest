@@ -1,12 +1,13 @@
 package ru.itintego.javatest.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ public class OptionsRoom extends SuperEntity {
 
     private String name;
     private String icon;
+    private String localizedName;
 
     @ManyToMany(mappedBy = "optionsRooms")
     @JsonBackReference

@@ -1,19 +1,41 @@
 {{#rooms}}
-    <li style="list-style-type:none">
-        <ul>
-            <div class="card" onclick="location.href='/rooms/{{id}}'">
-                <div class="card-body">
+    <div class="card shadow" style="margin-top: 1rem">
+        <div class="card-body">
+            <div>
+                <h5 class="d-flex justify-content-between">{{name}}
                     <div>
-                        <h5 style="justify-content: space-between">{{name}}
-                            {{#optionsRooms}}
-                                <img src="/images/{{name}}.png" alt="{{name}}"/>
-                            {{/optionsRooms}}
-                        </h5>
+                        {{#optionsRooms}}
+                            <img src="/images/{{name}}.png" alt="{{name}}"/>
+                        {{/optionsRooms}}
                     </div>
-                    <p>{{countOfPlaces}} мест</p>
-                    <p>{{description}}</p>
+                </h5>
+            </div>
+            <div class="d-flex justify-content-between">
+                <span>{{countOfPlaces}} мест</span>
+                <div>
+                    <span class="badge alert-danger">{{countOfUnproofedReserve}}</span>
+                    <span class="badge alert-success">{{countOfProofedReserveToday}}</span>
                 </div>
             </div>
-        </ul>
-    </li>
+            <div>
+                {{#clear}}
+                    <div>
+                        <div class="badge alert-success">Комната свободна</div>
+                    </div>
+                {{/clear}}
+                {{^clear}}
+                    <a class="badge alert-danger">{{fromTimeToTime}}</a>
+                {{/clear}}
+            </div>
+            <div class="d-flex justify-content-end" style="margin-top: .5rem">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button class="btn btn-secondary" onclick="location.href='/rooms/{{id}}'">Перейти в список
+                        мероприятий
+                    </button>
+                    <button class="btn btn-primary" onclick="location.href='/rooms/{{id}}/reserve'">Забронировать
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 {{/rooms}}
