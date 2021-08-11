@@ -34,8 +34,18 @@ public class HomeController {
     }
 
     @RequestMapping
-    public String home() {
-        return "redirect:/rooms";
+    public String home(HttpServletRequest request) {
+        if (request.isUserInRole("EMPLOYEE")) {
+            return "redirect:/rooms";
+        } else if (request.isUserInRole("MANAGER")) {
+            return "redirect:/rooms";
+        }
+        if (request.isUserInRole("ADMIN")) {
+            return "redirect:/admin";
+        } else {
+            return "redirect:/error";
+        }
+
     }
 
     @GetMapping("/auth")

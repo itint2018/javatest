@@ -1,9 +1,12 @@
 package ru.itintego.javatest.controllers.filter;
 
 import org.slf4j.Logger;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import ru.itintego.javatest.models.User;
 import ru.itintego.javatest.repositories.UserRepository;
+import ru.itintego.javatest.services.UserDetailsImpl;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.*;
@@ -46,7 +49,11 @@ public class AuthorizationFilter implements Filter {
                         User o = bySession.orElseThrow(() -> new NullPointerException(""));
                         logger.info("User {}", o);
                         cookie.setMaxAge(300);
+                        cookie.setPath("/");
                         servletResponse1.addCookie(cookie);
+                        UserDetailsImpl userDetails = new UserDetailsImpl(bySession.get());
+                        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     }
                 }
             } catch (NullPointerException | EntityNotFoundException e) {

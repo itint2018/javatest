@@ -37,6 +37,7 @@ public class AuthorizationController {
         UUID cookieValue = UUID.randomUUID();
         Cookie cookie = new Cookie("idSession", cookieValue.toString());
         cookie.setMaxAge(300);
+        cookie.setPath("/");
         httpServletResponse.addCookie(cookie);
         user1.setSession(cookieValue.toString());
         userRepository.save(user1);

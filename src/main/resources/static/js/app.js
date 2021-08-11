@@ -16,17 +16,22 @@ function OnSubmit(param) {
         method: param.method,
         headers: {
             'Content-Type': 'application/json'
-        }, body: JSON.stringify(json1)
+        },
+        body: JSON.stringify(json1),
+        credentials: "same-origin"
     }).then(response => {
         if (response.status !== 200) {
             document.getElementById('alertText').innerHTML = `${response.status.toString()}`
             document.getElementById('alert').style.visibility = 'visible'
         } else {
-            location.href = window.location.search
+            let urlSearchParams = new URLSearchParams(window.location.search);
+            location.href = urlSearchParams.get("uri")
+
         }
         return response.json()
     }).then(json1 => {
         document.getElementById('alertText').innerHTML += ` ${json1.message}`
+
         console.log(json1)
     })
     return false
