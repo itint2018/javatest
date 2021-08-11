@@ -2,23 +2,23 @@ package ru.itintego.javatest.controllers.ui;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.itintego.javatest.dto.IndexRoomDto;
-import ru.itintego.javatest.models.ReserveRoom;
-import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.repositories.RoomRepository;
 import ru.itintego.javatest.repositories.UserRepository;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
+
+    private final SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
 
     private final RoomRepository roomRepository;
     private final ReserveRoomRepository reserveRoomRepository;
@@ -33,31 +33,20 @@ public class HomeController {
         this.logger = logger;
     }
 
-    @RequestMapping("/")
-    public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView("index");
-        List<IndexRoomDto> rooms = roomRepository.findAll().stream().map(IndexRoomDto::new).collect(Collectors.toList());
-        rooms.forEach(room -> {
-            Room byId = roomRepository.getById(room.getId());
-            room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId));
-            room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId));
-            ReserveRoom byRoomAndAndStartIsAfter = reserveRoomRepository.findByRoomAndAndStartIsAfter(byId);
-            if (byRoomAndAndStartIsAfter != null) {
-                room.setFromTimeToTime(byRoomAndAndStartIsAfter.getStart().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                        + "-" + byRoomAndAndStartIsAfter.getEnd().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
-                room.setClear(false);
-            } else {
-                room.setClear(true);
-            }
-        });
-        modelAndView.addObject("rooms", rooms);
-        modelAndView.addObject("header", "Комнаты");
+    @RequestMapping
+    public String home() {
+        return "redirect:/rooms";
+    }
+
+    @GetMapping("/auth")
+    public ModelAndView login() {
+        ModelAndView modelAndView = new ModelAndView("login");
+        modelAndView.addObject("header", "Войти");
         return modelAndView;
     }
 
-    @RequestMapping("/login")
-    public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView("login");
-        return modelAndView;
+    @PostMapping("/login_page")
+    public void performLogin(HttpServletRequest request, HttpServletResponse response) {
+
     }
 }

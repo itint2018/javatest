@@ -1,10 +1,10 @@
 package ru.itintego.javatest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import ru.itintego.javatest.jpa_events.JpaEventListener;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @RequiredArgsConstructor
 @ToString
-@EntityListeners(JpaEventListener.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class SuperEntity {
     @Column(nullable = false)
     @Id

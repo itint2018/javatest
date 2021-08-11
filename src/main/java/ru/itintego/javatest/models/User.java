@@ -33,6 +33,9 @@ public class User extends SuperEntity {
     @Column(name = "enabled")
     private Boolean enabled;
 
+    @Column(name = "session")
+    private String session;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_id"),

@@ -1,4 +1,5 @@
 function OnSubmit(param) {
+    let message = ''
     let formData = new FormData(param)
     let json1 = new Map([])
     formData.forEach((value, key, parent) => {
@@ -17,9 +18,16 @@ function OnSubmit(param) {
             'Content-Type': 'application/json'
         }, body: JSON.stringify(json1)
     }).then(response => {
+        if (response.status !== 200) {
+            document.getElementById('alertText').innerHTML = `${response.status.toString()}`
+            document.getElementById('alert').style.visibility = 'visible'
+        } else {
+            location.href = window.location.search
+        }
         return response.json()
     }).then(json1 => {
+        document.getElementById('alertText').innerHTML += ` ${json1.message}`
         console.log(json1)
-    }).catch(e => console.log(e))
+    })
     return false
 }

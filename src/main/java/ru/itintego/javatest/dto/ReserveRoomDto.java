@@ -29,6 +29,9 @@ public class ReserveRoomDto {
     }
 
     public static String parseUser(User user) {
-        return "[" + user.getLogin() + "] " + user.getLastName() + " " + user.getFirstName();
+        if (user != null)
+            return "[" + user.getLogin() + "] " + user.getLastName() + " " + user.getFirstName();
+        else
+            return "Не известен";
     }
 }

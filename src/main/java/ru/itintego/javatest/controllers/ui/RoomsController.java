@@ -4,38 +4,41 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import ru.itintego.javatest.dto.IndexRoomDto;
 import ru.itintego.javatest.dto.ReserveRoomDto;
+import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
-import ru.itintego.javatest.services.RoomService;
+import ru.itintego.javatest.repositories.RoomRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/rooms/")
+@RequestMapping("/rooms")
 public class RoomsController {
-    private final RoomService roomService;
+    private final RoomRepository roomRepository;
     private final ReserveRoomRepository reserveRoomRepository;
 
-    public RoomsController(RoomService roomService, ReserveRoomRepository reserveRoomRepository) {
-        this.roomService = roomService;
+    public RoomsController(RoomRepository roomRepository, ReserveRoomRepository reserveRoomRepository) {
+        this.roomRepository = roomRepository;
         this.reserveRoomRepository = reserveRoomRepository;
     }
 
-    @RequestMapping("new")
+    @RequestMapping("/new")
     public ModelAndView newRoom() {
         ModelAndView modelAndView = new ModelAndView("rooms_new");
         return modelAndView;
     }
 
-    @RequestMapping("{id}")
+    @RequestMapping("/{id}")
     public ModelAndView room(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("room");
-        Room room = roomService.findById(id);
+        Room room = roomRepository.getById(id);
         List<ReserveRoomDto> roomDetail = reserveRoomRepository.findAllByRoom(room).stream().map(ReserveRoomDto::new).collect(Collectors.toList());
         modelAndView.addObject("room", room);
         modelAndView.addObject("roomDetail", roomDetail);
@@ -44,15 +47,28 @@ public class RoomsController {
     }
 
     @RequestMapping()
-    public ModelAndView rooms() {
-        ModelAndView modelAndView = new ModelAndView("rooms");
-        List<Room> rooms = roomService.findAll();
+    public ModelAndView home() {
+        ModelAndView modelAndView = new ModelAndView("index");
+        List<IndexRoomDto> rooms = roomRepository.findAll().stream().map(IndexRoomDto::new).collect(Collectors.toList());
+        rooms.forEach(room -> {
+            Room byId = roomRepository.getById(room.getId());
+            room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId));
+            room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId));
+            ReserveRoom byRoomAndAndStartIsAfter = reserveRoomRepository.findByRoomAndAndStartIsAfter(byId);
+            if (byRoomAndAndStartIsAfter != null) {
+                room.setFromTimeToTime(byRoomAndAndStartIsAfter.getStart().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                        + "-" + byRoomAndAndStartIsAfter.getEnd().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+                room.setClear(false);
+            } else {
+                room.setClear(true);
+            }
+        });
         modelAndView.addObject("rooms", rooms);
         modelAndView.addObject("header", "Комнаты");
         return modelAndView;
     }
 
-    @RequestMapping("{id}/reserve")
+    @RequestMapping("/{id}/reserve")
     public ModelAndView reserveRoom(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("reserve_room");
         modelAndView.addObject("header", "Зарезервировать комнату");

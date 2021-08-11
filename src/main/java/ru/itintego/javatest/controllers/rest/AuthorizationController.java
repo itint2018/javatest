@@ -1,38 +1,45 @@
 package ru.itintego.javatest.controllers.rest;
 
-import org.slf4j.Logger;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.itintego.javatest.dto.AuthorizationRequest;
 import ru.itintego.javatest.dto.AuthorizationResponse;
+import ru.itintego.javatest.models.User;
 import ru.itintego.javatest.repositories.UserRepository;
-import ru.itintego.javatest.services.auth.JwtService;
 
-import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
+import java.util.UUID;
+
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/login")
 public class AuthorizationController {
-    private final Logger logger;
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
 
-    public AuthorizationController(Logger logger, UserRepository userRepository, JwtService jwtService) {
-        this.logger = logger;
+    private final UserRepository userRepository;
+
+    public AuthorizationController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.jwtService = jwtService;
     }
 
-    @PostMapping("login")
-    public AuthorizationResponse login(@RequestBody AuthorizationRequest request) {
-        logger.info("Receive next auth request {}", request);
-        String token = jwtService.generateToken(userRepository.findByLoginAndPassword(request.getLogin(),
-                        request.getPassword())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"))
-                .getLogin());
-        return new AuthorizationResponse(token);
+
+    @GetMapping
+    public AuthorizationResponse login() {
+        return new AuthorizationResponse("TEST");
+    }
+
+    @PostMapping
+    public AuthorizationResponse login(@RequestBody AuthorizationRequest authorizationRequest, HttpServletResponse httpServletResponse) {
+        Optional<User> user = userRepository.findByLoginAndPassword(authorizationRequest.getUsername(), authorizationRequest.getPassword());
+        User user1 = user.orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+        UUID cookieValue = UUID.randomUUID();
+        Cookie cookie = new Cookie("idSession", cookieValue.toString());
+        cookie.setMaxAge(300);
+        httpServletResponse.addCookie(cookie);
+        user1.setSession(cookieValue.toString());
+        userRepository.save(user1);
+        return new AuthorizationResponse(cookieValue.toString());
     }
 }
