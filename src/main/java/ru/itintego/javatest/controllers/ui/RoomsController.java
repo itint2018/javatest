@@ -61,8 +61,8 @@ public class RoomsController {
         List<IndexRoomDto> rooms = roomRepository.findAll().stream().map(IndexRoomDto::new).collect(Collectors.toList());
         rooms.forEach(room -> {
             Room byId = roomRepository.getById(room.getId());
-            room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId, LocalDateTime.now(), LocalDate.now().atTime(23, 59)));
-            room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId, LocalDateTime.now(), LocalDate.now().atTime(23, 59)));
+            room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId, LocalDateTime.now()));
+            room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId, LocalDateTime.now()));
             ReserveRoom byRoomAndAndStartIsAfter = reserveRoomRepository.findByRoomAndAndStartIsAfter(byId, LocalDateTime.now());
             if (byRoomAndAndStartIsAfter != null) {
                 room.setFromTimeToTime(byRoomAndAndStartIsAfter.getStart().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
