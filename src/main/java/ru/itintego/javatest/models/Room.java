@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @RequiredArgsConstructor
+@ToString
 public class Room extends SuperEntity {
     private String name;
     private Integer countOfPlaces;

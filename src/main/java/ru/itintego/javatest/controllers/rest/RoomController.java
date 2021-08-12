@@ -2,10 +2,12 @@ package ru.itintego.javatest.controllers.rest;
 
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.itintego.javatest.dto.ReserveDto;
+import ru.itintego.javatest.dto.SaveRoomDto;
 import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.models.User;
@@ -50,6 +52,21 @@ public class RoomController implements DataController<Room, Long> {
         return roomRepository.save(room);
     }
 
+
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
+    @PostMapping("/new")
+    public Room save(@RequestBody SaveRoomDto saveRoomDto) {
+        logger.info("Saved room {}", saveRoomDto);
+        Room room = new Room();
+        room.setName(saveRoomDto.getName());
+        room.setDescription(saveRoomDto.getDescription());
+        room.setCountOfPlaces(saveRoomDto.getCountOfPlaces());
+        logger.info("Save room to repository {}", room);
+        Room save = roomRepository.save(room);
+        logger.info("Save room to repository {}", save);
+        return save;
+    }
+
     @PostMapping
     @RequestMapping(value = "/{id}/reserve")
     public ReserveRoom save(@PathVariable("id") Long id, @RequestBody ReserveDto reserveDto) {
@@ -57,8 +74,8 @@ public class RoomController implements DataController<Room, Long> {
         Room byId = roomRepository.getById(id);
         LocalTime startTime = LocalTime.parse(reserveDto.getTimeStart());
         LocalTime endTime = LocalTime.parse(reserveDto.getTimeEnd());
-        if (endTime.isAfter(startTime)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Start date or end date is intersected");
+        if (endTime.isBefore(startTime)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "End time is before start time");
         }
         LocalDateTime startDateTime = LocalDate.parse(reserveDto.getDate()).atTime(startTime);
         LocalDateTime endDateTime = LocalDate.parse(reserveDto.getDate()).atTime(endTime);

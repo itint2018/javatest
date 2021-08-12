@@ -26,9 +26,9 @@ function OnSubmit(param) {
         } else {
             let urlSearchParams = new URLSearchParams(window.location.search);
             let uri = urlSearchParams.get("uri");
-            if (uri !== null)
-                location.href = uri
-            else location.href = '/'
+            // if (uri !== null)
+            //     location.href = uri
+            // else location.href = '/'
         }
         return response.json()
     }).then(json1 => {
