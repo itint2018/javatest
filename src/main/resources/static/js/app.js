@@ -29,7 +29,6 @@ function OnSubmit(param) {
             if (uri !== null)
                 location.href = uri
             else location.href = '/'
-
         }
         return response.json()
     }).then(json1 => {

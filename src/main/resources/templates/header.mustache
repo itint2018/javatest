@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid ">
         <div class="justify-content-start">
             <button class="btn btn-secondary" onclick="window.history.back()">
@@ -18,8 +18,11 @@
             </button>
             <span style="margin-left: .5rem" class="navbar-brand mb-0 h1">{{header}}</span>
         </div>
-        <div class="justify-content-end">
-            <span>{{username}}</span>
-        </div>
+        {{#username}}
+            <div class="justify-content-end">
+                <span style="text-light">{{.}}</span>
+                <a style="nav-link" href="/logout">Выйти</a>
+            </div>
+        {{/username}}
     </div>
 </nav>

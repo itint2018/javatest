@@ -35,26 +35,34 @@
 
 <div class="card shadow" style="margin-top: 1rem">
     {{^roomDetail.isEmpty}}
-        <table class="table" style="margin-top: .5rem">
-            <thead>
-            <th scope="col">Сотрудник</th>
-            <th scope="col">Офис менеджер</th>
-            <th scope="col">Начало</th>
-            <th scope="col">Конец</th>
-            <th scope="col">Описание</th>
-            </thead>
-            <tbody>
-            {{#roomDetail}}
-                <tr scope="row">
-                    <th>{{user}}</th>
-                    <th>{{proof}}</th>
-                    <th>{{start}}</th>
-                    <th>{{end}}</th>
-                    <th>{{description}}</th>
-                </tr>
-            {{/roomDetail}}
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-bordered" style="margin-top: .5rem">
+                <thead>
+                <th scope="col">Сотрудник</th>
+                <th scope="col">Офис менеджер</th>
+                <th scope="col">Начало</th>
+                <th scope="col">Конец</th>
+                <th scope="col">Описание</th>
+                <th scope="col"></th>
+                </thead>
+                <tbody>
+                {{#roomDetail}}
+                    <tr scope="row">
+                        <th>{{user}}</th>
+                        <th>{{proof}}</th>
+                        <th>{{start}}</th>
+                        <th>{{end}}</th>
+                        <th>{{description}}</th>
+                        <th>
+                            <button class="btn btn-secondary" onclick="location.href = '/reserve_room/{{id}}'">Перейти в
+                                мероприятию
+                            </button>
+                        </th>
+                    </tr>
+                {{/roomDetail}}
+                </tbody>
+            </table>
+        </div>
     {{/roomDetail.isEmpty}}
     {{#roomDetail.isEmpty}}
         <h5 class="text-center">Список пуст</h5>

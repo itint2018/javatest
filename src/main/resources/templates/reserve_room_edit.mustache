@@ -1,2 +1,29 @@
 {{>header}}
+<div class="container-fluid">
+    <h2 class="text-center">Бронирование комнаты</h2>
+    <div class="card shadow" style="margin-top: 1rem">
+        <div class="card-body">
+            <div class="mb-auto">
+                <form>
+                    {{#reserveRoom}}
+                        <Label for="date" class="form-label">Выберите дату</Label>
+                        <input type="date" class="form-control" id="date" value="{{date}}" name="date">
+                        <Label for="timeStart" class="form-label">Выберите время начала</Label>
+                        <input type="time" value="{{timeStart}}" class="form-control" id="timeStart"
+                               name="timeStart">
+                        <Label for="timeEnd" class="form-label">Выберите время конца</Label>
+                        <input type="time" value="{{timeEnd}}" class="form-control" id="timeEnd" name="timeEnd">
+                        <label for="description" class="form-label">Описание</label>
+                        <input type="text" value="{{description}}" class="form-control" id="description"
+                               name="description">
+                        <div style="margin-top: .5rem" class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Забронировать</button>
+                            <button type="submit" class="btn btn-primary">Забронировать</button>
+                        </div>
+                    {{/reserveRoom}}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {{>footer}}

@@ -10,7 +10,7 @@ import java.util.List;
 public interface ReserveRoomRepository extends SuperRepository<ReserveRoom> {
     List<ReserveRoom> findAllByRoom(Room room);
 
-    @Query("select count(r) from ReserveRoom r where r.proof.id = 0 and r.room = ?1 and r.start > current_timestamp ")
+    @Query("select count(r) from ReserveRoom r where (r.proof.id = 0 or r.proof = null ) and r.room = ?1 and r.start > current_timestamp ")
     Long countAllUnproofedRooms(Room room);
 
     @Query("select count(r) from ReserveRoom r where r.proof.id <> 0 and r.room = ?1 and r.start > current_timestamp")

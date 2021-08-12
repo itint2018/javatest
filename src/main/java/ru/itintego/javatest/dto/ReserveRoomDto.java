@@ -10,6 +10,7 @@ import java.time.format.FormatStyle;
 
 @Data
 public class ReserveRoomDto {
+    Long id;
     String start;
     String end;
     String proof;
@@ -17,6 +18,7 @@ public class ReserveRoomDto {
     String description;
 
     public ReserveRoomDto(ReserveRoom reserveRoom) {
+        this.id = reserveRoom.getId();
         this.start = parseLocalDateTime(reserveRoom.getStart());
         this.end = parseLocalDateTime(reserveRoom.getEnd());
         this.proof = parseUser(reserveRoom.getProof());
