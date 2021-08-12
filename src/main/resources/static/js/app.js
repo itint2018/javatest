@@ -23,7 +23,7 @@ async function OnSubmit(param) {
         if (json.hasOwnProperty("idSession")) {
             let urlSearchParams = new URLSearchParams(window.location.search);
             let uri = urlSearchParams.get("uri");
-            if (uri !== null)
+            if (uri !== null || uri === '/auth')
                 location.href = uri
             else location.href = '/'
         } else if (json.hasOwnProperty('id')) {

@@ -43,15 +43,34 @@
             </thead>
             <tbody>
             {{#roomDetail}}
-                <tr scope="row" onclick="location.href = '/reserve_room/{{id}}'">
-                    <td>{{user}}</td>
-                    <td>{{date}}</td>
-                    <td>{{start}}-{{end}}</td>
-                    <td>{{description}}</td>
+                <tr scope="row"
+                ">
+                <td>{{user}}</td>
+                <td>{{date}}</td>
+                <td>{{start}}-{{end}}</td>
+                <td>{{description}}</td>
+                {{#isAdminOrSuper}}
                     <td>
-                        <span class="material-icons text-success">done</span>
-                        <span class="material-icons text-danger">close</span>
+                        <button class="btn btn-success btn-sm"><span class="material-icons text-light"
+                                                                     style="font-size: .75rem">done</span>
+                        </button>
                     </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm"><span class="material-icons text-light"
+                                                                    style="font-size: .75rem">close</span>
+                        </button>
+                    </td>
+                {{/isAdminOrSuper}}
+                {{^isAdminOrSuper}}
+                    <td>
+                        {{#isProofed}}
+                            <span class="material-icons text-success">done</span>
+                        {{/isProofed}}
+                        {{^isProofed}}
+                            <span class="material-icons text-danger">close</span>
+                        {{/isProofed}}
+                    </td>
+                {{/isAdminOrSuper}}
                 </tr>
             {{/roomDetail}}
             </tbody>

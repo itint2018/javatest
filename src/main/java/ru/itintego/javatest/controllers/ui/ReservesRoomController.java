@@ -28,4 +28,9 @@ public class ReservesRoomController {
         modelAndView.addObject("header", "Мероприятие " + reserveDto.getDescription());
         return modelAndView;
     }
+
+    @RequestMapping()
+    public String home() {
+        return "redirect:/rooms";
+    }
 }
