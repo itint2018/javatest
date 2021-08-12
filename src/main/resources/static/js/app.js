@@ -4,7 +4,7 @@ async function OnSubmit(param) {
     let json1 = new Map([])
     formData.forEach((value, key, parent) => {
         console.log(value.type)
-        if (key === "password") {
+        if (key === "pass") {
             json1[key] = md5(value)
         } else {
             json1[key] = value
