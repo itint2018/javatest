@@ -20,13 +20,16 @@ async function OnSubmit(param) {
     })
     let json = await response.json()
     if (response.ok) {
-        if (json.idSession != null) {
+        if (json.hasOwnProperty("idSession")) {
             let urlSearchParams = new URLSearchParams(window.location.search);
             let uri = urlSearchParams.get("uri");
             if (uri !== null)
                 location.href = uri
             else location.href = '/'
-        } else if (json.id) {
+        } else if (json.hasOwnProperty('id')) {
+            //если это комната
+            //если это резерв
+            //если это пользователь
             console.log("ok", json)
         }
     } else {
