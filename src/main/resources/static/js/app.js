@@ -25,7 +25,10 @@ function OnSubmit(param) {
             document.getElementById('alert').style.visibility = 'visible'
         } else {
             let urlSearchParams = new URLSearchParams(window.location.search);
-            location.href = urlSearchParams.get("uri")
+            let uri = urlSearchParams.get("uri");
+            if (uri !== null)
+                location.href = uri
+            else location.href = '/'
 
         }
         return response.json()
