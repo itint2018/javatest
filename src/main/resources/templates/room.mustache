@@ -38,7 +38,7 @@
             <th scope="col">Сотрудник</th>
             <th scope="col">Дата</th>
             <th scope="col">Время</th>
-            <th scope="col">Описание</th>
+            <th scope="col" class="d-sm-none d-md-block d-none d-sm-block">Описание</th>
             <th scope="col"></th>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                     <td>{{user}}</td>
                     <td>{{date}}</td>
                     <td>{{start}}-{{end}}</td>
-                    <td>{{description}}</td>
+                    <td class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
                     {{#isAdminOrSuper}}
                         <td>
                             <button class="btn btn-success btn-sm"><span class="material-icons text-light"
