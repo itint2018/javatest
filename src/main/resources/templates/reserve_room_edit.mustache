@@ -17,8 +17,15 @@
                         <input type="text" value="{{description}}" class="form-control" id="description"
                                name="description">
                         <div style="margin-top: .5rem" class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Забронировать</button>
-                            <button type="submit" class="btn btn-primary">Забронировать</button>
+                            {{#isAdminOrSuper}}
+                                <button type="submit" class="btn btn-success">Подтвердить</button>
+                                <button type="submit" class="btn btn-danger">Отклонить</button>
+                            {{/isAdminOrSuper}}
+
+                            {{#isAdminOrSuper}}
+                                <button type="submit" class="btn btn-primary">Изменить</button>
+                            {{/isAdminOrSuper}}
+
                         </div>
                     {{/reserveRoom}}
                 </form>

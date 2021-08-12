@@ -1,7 +1,6 @@
 {{>header}}
 {{#room}}
     <div class="container-fluid">
-
         <div class="card shadow" style="margin-top: 1rem">
             <div class="card-body">
                 <div style="margin-top: .5rem" class="d-flex justify-content-end">
@@ -10,19 +9,18 @@
                         <span>Редактировать</span>
                     </button>
                 </div>
-                <p>{{countOfPlaces}} мест</p>
-                <p>{{description}}</p>
-
+                <p>В комнате мест: <b>{{countOfPlaces}}</b></p>
+                <p><b>{{description}}</b></p>
                 <table class="table">
-                    <thead>
-                    <th scope="col"></th>
-                    <th scope="col">В комнате имеется</th>
-                    </thead>
                     <tbody>
+                    <tr scope="row">
+                        <td></td>
+                        <td>В комнате имеется</td>
+                    </tr>
                     {{#optionsRooms}}
                         <tr scope="row">
-                            <th><img src="/images/{{name}}.png" alt="{{name}}"/></th>
-                            <th>{{localizedName}}</th>
+                            <td><span class="{{iconPack}} {{icon}}"></span></td>
+                            <td>{{name}}</td>
                         </tr>
                     {{/optionsRooms}}
                     </tbody>
@@ -35,34 +33,36 @@
 
 <div class="card shadow" style="margin-top: 1rem">
     {{^roomDetail.isEmpty}}
-        <div class="table-responsive">
-            <table class="table table-bordered" style="margin-top: .5rem">
-                <thead>
-                <th scope="col">Сотрудник</th>
-                <th scope="col">Офис менеджер</th>
-                <th scope="col">Начало</th>
-                <th scope="col">Конец</th>
-                <th scope="col">Описание</th>
-                <th scope="col"></th>
-                </thead>
-                <tbody>
-                {{#roomDetail}}
-                    <tr scope="row">
-                        <th>{{user}}</th>
-                        <th>{{proof}}</th>
-                        <th>{{start}}</th>
-                        <th>{{end}}</th>
-                        <th>{{description}}</th>
-                        <th>
-                            <button class="btn btn-secondary" onclick="location.href = '/reserve_room/{{id}}'">Перейти в
-                                мероприятию
-                            </button>
-                        </th>
-                    </tr>
-                {{/roomDetail}}
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-bordered">
+            <thead>
+            <th scope="col">Сотрудник</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Время</th>
+            <th scope="col">Описание</th>
+            <th scope="col"></th>
+            </thead>
+            <tbody>
+            {{#roomDetail}}
+                <tr scope="row" onclick="location.href = '/reserve_room/{{id}}'">
+                    <td>{{user}}</td>
+                    <td>{{date}}</td>
+                    <td>{{start}}-{{end}}</td>
+                    <td>{{description}}</td>
+                    {{#isProofed}}
+                        <td>
+                            <span class="material-icons text-success">done</span>
+                        </td>
+                    {{/isProofed}}
+                    {{^isProofed}}
+                        <td>
+                            <span class="material-icons text-danger">close</span>
+                        </td>
+                    {{/isProofed}}
+
+                </tr>
+            {{/roomDetail}}
+            </tbody>
+        </table>
     {{/roomDetail.isEmpty}}
     {{#roomDetail.isEmpty}}
         <h5 class="text-center">Список пуст</h5>

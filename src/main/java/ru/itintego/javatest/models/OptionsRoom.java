@@ -20,7 +20,6 @@ public class OptionsRoom extends SuperEntity {
 
     private String name;
     private String icon;
-    private String localizedName;
 
     @ManyToMany(mappedBy = "optionsRooms")
     @JsonBackReference

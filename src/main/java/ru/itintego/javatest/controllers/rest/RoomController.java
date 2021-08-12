@@ -57,6 +57,9 @@ public class RoomController implements DataController<Room, Long> {
         Room byId = roomRepository.getById(id);
         LocalTime startTime = LocalTime.parse(reserveDto.getTimeStart());
         LocalTime endTime = LocalTime.parse(reserveDto.getTimeEnd());
+        if (endTime.isAfter(startTime)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Start date or end date is intersected");
+        }
         LocalDateTime startDateTime = LocalDate.parse(reserveDto.getDate()).atTime(startTime);
         LocalDateTime endDateTime = LocalDate.parse(reserveDto.getDate()).atTime(endTime);
         Optional<User> activeUser = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());

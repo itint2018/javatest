@@ -1,10 +1,10 @@
 package ru.itintego.javatest.dto;
 
 import lombok.Data;
-import ru.itintego.javatest.models.OptionsRoom;
 import ru.itintego.javatest.models.Room;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 public class IndexRoomDto {
@@ -12,7 +12,7 @@ public class IndexRoomDto {
     String name;
     Integer countOfPlaces;
     String description;
-    Set<OptionsRoom> optionsRooms;
+    Set<OptionsRoomDto> optionsRooms;
     Long countOfUnproofedReserve;
     Long countOfProofedReserveToday;
     Boolean clear;
@@ -23,6 +23,6 @@ public class IndexRoomDto {
         this.name = room.getName();
         this.countOfPlaces = room.getCountOfPlaces();
         this.description = room.getDescription();
-        this.optionsRooms = room.getOptionsRooms();
+        this.optionsRooms = room.getOptionsRooms().stream().map(OptionsRoomDto::new).collect(Collectors.toSet());
     }
 }

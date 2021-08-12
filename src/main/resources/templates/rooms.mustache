@@ -5,7 +5,7 @@
                 <h5 class="d-flex justify-content-between">{{name}}
                     <div>
                         {{#optionsRooms}}
-                            <img src="/images/{{name}}.png" alt="{{name}}"/>
+                            <span class="{{iconPack}} {{icon}}"></span>
                         {{/optionsRooms}}
                     </div>
                 </h5>
@@ -29,8 +29,7 @@
             </div>
             <div class="d-flex justify-content-end" style="margin-top: .5rem">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button class="btn btn-secondary" onclick="location.href='/rooms/{{id}}'">Перейти в список
-                        мероприятий
+                    <button class="btn btn-secondary" onclick="location.href='/rooms/{{id}}'">Мероприятия
                     </button>
                     <button class="btn btn-primary" onclick="location.href='/rooms/{{id}}/reserve'">Забронировать
                     </button>

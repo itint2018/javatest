@@ -45,8 +45,9 @@ public class RoomsController {
     public ModelAndView room(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("room");
         Room room = roomRepository.getById(id);
+        IndexRoomDto indexRoomDto = new IndexRoomDto(room);
         List<ReserveRoomDto> roomDetail = reserveRoomRepository.findAllByRoom(room).stream().map(ReserveRoomDto::new).collect(Collectors.toList());
-        modelAndView.addObject("room", room);
+        modelAndView.addObject("room", indexRoomDto);
         modelAndView.addObject("roomDetail", roomDetail);
         modelAndView.addObject("header", room.getName());
         return modelAndView;
