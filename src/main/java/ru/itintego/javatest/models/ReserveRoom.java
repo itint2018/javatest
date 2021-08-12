@@ -1,7 +1,6 @@
 package ru.itintego.javatest.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,13 +19,13 @@ import java.time.LocalDateTime;
 public class ReserveRoom extends SuperEntity {
 
     @OneToOne
-    @JsonIgnoreProperties({"name", "countOfPlaces"})
+    @JsonIgnoreProperties({"countOfPlaces"})
     private Room room;
     @OneToOne
-    @JsonIgnoreProperties({"login", "password", "lastName", "firstName", "roles"})
+    @JsonIgnoreProperties({"login", "password", "roles", "session"})
     private User user;
     @OneToOne
-    @JsonIgnoreProperties({"login", "password", "lastName", "firstName", "roles"})
+    @JsonIgnoreProperties({"login", "password", "roles", "session"})
     private User proof;
     private LocalDateTime start;
     private LocalDateTime end;

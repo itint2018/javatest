@@ -14,6 +14,7 @@ import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.repositories.RoomRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -46,6 +47,7 @@ public class RoomsController {
         ModelAndView modelAndView = new ModelAndView("room");
         Room room = roomRepository.getById(id);
         IndexRoomDto indexRoomDto = new IndexRoomDto(room);
+
         List<ReserveRoomDto> roomDetail = reserveRoomRepository.findAllByRoom(room).stream().map(ReserveRoomDto::new).collect(Collectors.toList());
         modelAndView.addObject("room", indexRoomDto);
         modelAndView.addObject("roomDetail", roomDetail);
@@ -59,9 +61,9 @@ public class RoomsController {
         List<IndexRoomDto> rooms = roomRepository.findAll().stream().map(IndexRoomDto::new).collect(Collectors.toList());
         rooms.forEach(room -> {
             Room byId = roomRepository.getById(room.getId());
-            room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId));
-            room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId));
-            ReserveRoom byRoomAndAndStartIsAfter = reserveRoomRepository.findByRoomAndAndStartIsAfter(byId);
+            room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId, LocalDateTime.now(), LocalDate.now().atTime(23, 59)));
+            room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId, LocalDateTime.now(), LocalDate.now().atTime(23, 59)));
+            ReserveRoom byRoomAndAndStartIsAfter = reserveRoomRepository.findByRoomAndAndStartIsAfter(byId, LocalDateTime.now());
             if (byRoomAndAndStartIsAfter != null) {
                 room.setFromTimeToTime(byRoomAndAndStartIsAfter.getStart().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                         + "-" + byRoomAndAndStartIsAfter.getEnd().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));

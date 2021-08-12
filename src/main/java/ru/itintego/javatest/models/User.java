@@ -34,6 +34,7 @@ public class User extends SuperEntity {
     private Boolean enabled;
 
     @Column(name = "session")
+    @JsonIgnore
     private String session;
 
     @ManyToMany(fetch = FetchType.EAGER)

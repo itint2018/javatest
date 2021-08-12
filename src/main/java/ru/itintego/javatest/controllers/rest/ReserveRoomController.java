@@ -13,6 +13,7 @@ import java.util.List;
 public class ReserveRoomController implements DataController<ReserveRoom, Long> {
     private final ReserveRoomRepository reserveRoomRepository;
 
+
     public ReserveRoomController(ReserveRoomRepository reserveRoomRepository) {
         this.reserveRoomRepository = reserveRoomRepository;
     }
@@ -26,6 +27,12 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
     public ReserveRoom findById(Long aLong) {
         return reserveRoomRepository.getById(aLong);
     }
+// TODO:
+//    @GetMapping("/{id}/proof")
+//    public Map<String, String> proof(@PathVariable("id") Long id) {
+//        ReserveRoom byId = reserveRoomRepository.getById(id);
+//        SecurityContextHolder.getContext().getAuthentication().
+//    }
 
     @Override
     public ReserveRoom save(ReserveRoom reserveRoom) {
