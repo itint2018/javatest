@@ -1,9 +1,15 @@
 {{>header}}
 {{#room}}
     <div class="container-fluid">
-        <h2 class="text-center text-capitalize">{{name}}</h2>
+
         <div class="card shadow" style="margin-top: 1rem">
             <div class="card-body">
+                <div style="margin-top: .5rem" class="d-flex justify-content-end">
+                    <button class="btn btn-primary">
+                        <span class="material-icons">edit</span>
+                        <span>Редактировать</span>
+                    </button>
+                </div>
                 <p>{{countOfPlaces}} мест</p>
                 <p>{{description}}</p>
 

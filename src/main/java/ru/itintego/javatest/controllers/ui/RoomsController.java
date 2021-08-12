@@ -1,5 +1,6 @@
 package ru.itintego.javatest.controllers.ui;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class RoomsController {
         this.reserveRoomRepository = reserveRoomRepository;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @RequestMapping("/new")
     public ModelAndView newRoom() {
         ModelAndView modelAndView = new ModelAndView("rooms_new");

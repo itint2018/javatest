@@ -5,15 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.repositories.RoomRepository;
 import ru.itintego.javatest.repositories.UserRepository;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 @Controller
 public class HomeController {
@@ -55,8 +56,12 @@ public class HomeController {
         return modelAndView;
     }
 
-    @PostMapping("/login_page")
-    public void performLogin(HttpServletRequest request, HttpServletResponse response) {
-
+    @RequestMapping("/logout")
+    public String logout(HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+        Cookie[] cookies = httpServletRequest.getCookies();
+        Cookie cookie1 = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("idSession")).findFirst().orElseThrow();
+        cookie1.setMaxAge(-1);
+        httpServletResponse.addCookie(cookie1);
+        return "redirect:/auth";
     }
 }

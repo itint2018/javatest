@@ -1,9 +1,12 @@
 {{>header}}
-<div class="container-fluid" style="margin-top: 1rem">
+<div class="container min-vh-90 py-2" style="margin-top: 1rem">
     <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-primary" style="margin-left: auto" onclick="location.href='/rooms/new'">
-            Добавить комнату
-        </button>
+        {{#isAdminOrSuper}}
+            <button type="button" class="btn btn-primary" style="margin-left: auto"
+                    onclick="location.href='/rooms/new'">
+                Добавить комнату
+            </button>
+        {{/isAdminOrSuper}}
     </div>
     <div style="margin-top: .5rem">
         {{>rooms}}

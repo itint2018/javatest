@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.itintego.javatest.controllers.filter.AuthorizationFilter;
 import ru.itintego.javatest.repositories.UserRepository;
 import ru.itintego.javatest.services.UserServiceDetailImpl;
@@ -31,11 +32,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and().csrf().disable();
+        http
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .and()
+                .csrf().disable()
+                .formLogin().disable()
+                .logout().disable()
+                .authorizeRequests()
+                .antMatchers("/auth").permitAll()
+                .antMatchers("/api/login").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/js", "/images");
+        web.ignoring().antMatchers("/js/**", "/js/*", "/images/**", "/images/**");
     }
 
     @Bean
