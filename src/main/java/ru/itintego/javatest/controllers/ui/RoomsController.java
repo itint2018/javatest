@@ -47,7 +47,7 @@ public class RoomsController {
         ModelAndView modelAndView = new ModelAndView("room");
         Room room = roomRepository.getById(id);
         IndexRoomDto indexRoomDto = new IndexRoomDto(room);
-
+        fillingIndexRoomDto(indexRoomDto);
         List<ReserveRoomDto> roomDetail = reserveRoomRepository.findAllByRoom(room).stream().map(ReserveRoomDto::new).collect(Collectors.toList());
         modelAndView.addObject("room", indexRoomDto);
         modelAndView.addObject("roomDetail", roomDetail);
@@ -59,19 +59,7 @@ public class RoomsController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("index");
         List<IndexRoomDto> rooms = roomRepository.findAll().stream().map(IndexRoomDto::new).collect(Collectors.toList());
-        rooms.forEach(room -> {
-            Room byId = roomRepository.getById(room.getId());
-            room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId, LocalDateTime.now()));
-            room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId, LocalDateTime.now()));
-            ReserveRoom byRoomAndAndStartIsAfter = reserveRoomRepository.findByRoomAndAndStartIsAfter(byId, LocalDateTime.now());
-            if (byRoomAndAndStartIsAfter != null) {
-                room.setFromTimeToTime(byRoomAndAndStartIsAfter.getStart().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                        + "-" + byRoomAndAndStartIsAfter.getEnd().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
-                room.setClear(false);
-            } else {
-                room.setClear(true);
-            }
-        });
+        rooms.forEach(this::fillingIndexRoomDto);
         modelAndView.addObject("rooms", rooms);
         modelAndView.addObject("header", "Комнаты");
         return modelAndView;
@@ -84,5 +72,19 @@ public class RoomsController {
         modelAndView.addObject("minDate", LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
         modelAndView.addObject("minTime", LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME));
         return modelAndView;
+    }
+
+    private void fillingIndexRoomDto(IndexRoomDto room) {
+        Room byId = roomRepository.getById(room.getId());
+        room.setCountOfUnproofedReserve(reserveRoomRepository.countAllUnproofedRooms(byId, LocalDateTime.now()));
+        room.setCountOfProofedReserveToday(reserveRoomRepository.countAllByRoom(byId, LocalDateTime.now()));
+        ReserveRoom byRoomAndAndStartIsAfter = reserveRoomRepository.findByRoomAndAndStartIsAfter(byId, LocalDateTime.now());
+        if (byRoomAndAndStartIsAfter != null) {
+            room.setFromTimeToTime(byRoomAndAndStartIsAfter.getStart().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                    + "-" + byRoomAndAndStartIsAfter.getEnd().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
+            room.setClear(false);
+        } else {
+            room.setClear(true);
+        }
     }
 }
