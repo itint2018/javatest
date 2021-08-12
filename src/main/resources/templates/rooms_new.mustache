@@ -1,11 +1,17 @@
 {{>header}}
 <div class="container">
     <h1>Добавить комнату</h1>
-    <form>
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-    </form>
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <label class="form-label" for="name">Название комнаты</label>
+                <input class="form-control" type="text" id="name" name="name">
+                <label class="form-label" for="name">Описание комнаты</label>
+                <input class="form-control" type="text" id="description" name="description">
+                <label class="form-label" for="name">Количество мест</label>
+                <input class="form-control" type="text" id="countOfPlaces" name="countOfPlaces">
+            </form>
+        </div>
+    </div>
 </div>
 {{>footer}}
