@@ -25,7 +25,7 @@ import java.util.Optional;
 @Component
 public class AuthorizationFilter extends GenericFilterBean {
 
-    public static final List<String> ALLOWED_ROUTES = List.of("/auth", "/api/login", "/js/app.js", "/js/md5_min.js");
+    public static final List<String> ALLOWED_ROUTES = List.of("/auth", "/api/login", "/js/app.js", "/js/md5_min.js", "/aut_registration.php");
 
     private final UserRepository userRepository;
 
