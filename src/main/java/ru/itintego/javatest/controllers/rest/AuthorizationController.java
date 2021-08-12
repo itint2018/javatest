@@ -15,7 +15,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping({"/api/login", "/aut_registration.php"})
 public class AuthorizationController {
 
     private final UserRepository userRepository;

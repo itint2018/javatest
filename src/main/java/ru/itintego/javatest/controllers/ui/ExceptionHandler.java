@@ -12,7 +12,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("header", "Доступ запрещен");
+        modelAndView.addObject("header", "Ошибка");
         modelAndView.addObject("username", "");
         return modelAndView;
     }
