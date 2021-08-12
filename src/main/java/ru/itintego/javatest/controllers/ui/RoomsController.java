@@ -1,6 +1,7 @@
 package ru.itintego.javatest.controllers.ui;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.slf4j.Logger;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,16 +25,19 @@ import java.util.stream.Collectors;
 public class RoomsController {
     private final RoomRepository roomRepository;
     private final ReserveRoomRepository reserveRoomRepository;
+    private final Logger logger;
 
-    public RoomsController(RoomRepository roomRepository, ReserveRoomRepository reserveRoomRepository) {
+    public RoomsController(RoomRepository roomRepository, ReserveRoomRepository reserveRoomRepository, Logger logger) {
         this.roomRepository = roomRepository;
         this.reserveRoomRepository = reserveRoomRepository;
+        this.logger = logger;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @RequestMapping("/new")
     public ModelAndView newRoom() {
         ModelAndView modelAndView = new ModelAndView("rooms_new");
+        modelAndView.addObject("header", "Добавить комнату");
         return modelAndView;
     }
 
