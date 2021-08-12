@@ -48,17 +48,10 @@
                     <td>{{date}}</td>
                     <td>{{start}}-{{end}}</td>
                     <td>{{description}}</td>
-                    {{#isProofed}}
-                        <td>
-                            <span class="material-icons text-success">done</span>
-                        </td>
-                    {{/isProofed}}
-                    {{^isProofed}}
-                        <td>
-                            <span class="material-icons text-danger">close</span>
-                        </td>
-                    {{/isProofed}}
-
+                    <td>
+                        <span class="material-icons text-success">done</span>
+                        <span class="material-icons text-danger">close</span>
+                    </td>
                 </tr>
             {{/roomDetail}}
             </tbody>

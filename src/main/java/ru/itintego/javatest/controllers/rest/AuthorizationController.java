@@ -32,7 +32,7 @@ public class AuthorizationController {
 
     @PostMapping
     public AuthorizationResponse login(@RequestBody AuthorizationRequest authorizationRequest, HttpServletResponse httpServletResponse) {
-        Optional<User> user = userRepository.findByLoginAndPassword(authorizationRequest.getUsername(), authorizationRequest.getPassword());
+        Optional<User> user = userRepository.findByLoginAndPassword(authorizationRequest.getLogin(), authorizationRequest.getPass());
         User user1 = user.orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
         UUID cookieValue = UUID.randomUUID();
         Cookie cookie = new Cookie("idSession", cookieValue.toString());
