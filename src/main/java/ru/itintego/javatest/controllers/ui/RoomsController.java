@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.itintego.javatest.dto.IndexRoomDto;
+import ru.itintego.javatest.dto.ReserveDto;
 import ru.itintego.javatest.dto.ReserveRoomDto;
 import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.models.Room;
@@ -71,6 +72,15 @@ public class RoomsController {
         modelAndView.addObject("header", "Зарезервировать комнату");
         modelAndView.addObject("minDate", LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
         modelAndView.addObject("minTime", LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME));
+        return modelAndView;
+    }
+
+    @RequestMapping("/{roomId}/{reserveId}")
+    public ModelAndView reserveRoom(@PathVariable("roomId") Long roomId, @PathVariable("reserveId") Long reserveId) {
+        ModelAndView modelAndView = new ModelAndView("reserve_room_edit");
+        ReserveDto reserveDto = new ReserveDto(reserveRoomRepository.getById(reserveId));
+        modelAndView.addObject("reserveRoom", reserveDto);
+        modelAndView.addObject("header", "Мероприятие " + reserveDto.getDescription());
         return modelAndView;
     }
 

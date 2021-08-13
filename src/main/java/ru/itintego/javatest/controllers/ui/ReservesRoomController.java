@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import ru.itintego.javatest.dto.ReserveDto;
+import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 
 @Controller
@@ -20,14 +19,14 @@ public class ReservesRoomController {
         this.logger = logger;
     }
 
+
     @RequestMapping("/{id}")
-    public ModelAndView reserveRoom(@PathVariable("id") Long id) {
-        ModelAndView modelAndView = new ModelAndView("reserve_room_edit");
-        ReserveDto reserveDto = new ReserveDto(reserveRoomRepository.getById(id));
-        modelAndView.addObject("reserveRoom", reserveDto);
-        modelAndView.addObject("header", "Мероприятие " + reserveDto.getDescription());
-        return modelAndView;
+    public String toRoom(@PathVariable("id") Long id) {
+        ReserveRoom byId = reserveRoomRepository.getById(id);
+        return "/rooms/" + byId.getRoom().getId();
+
     }
+
 
     @RequestMapping()
     public String home() {

@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import ru.itintego.javatest.jpa_events.JpaEventListener;
 
 import javax.persistence.*;
 
 @MappedSuperclass
+@EntityListeners({JpaEventListener.class})
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -19,4 +21,7 @@ public class SuperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Transient
+    private String clazz;
 }

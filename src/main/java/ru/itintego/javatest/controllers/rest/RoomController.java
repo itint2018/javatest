@@ -62,7 +62,8 @@ public class RoomController implements DataController<Room, Long> {
         room.setDescription(saveRoomDto.getDescription());
         room.setCountOfPlaces(saveRoomDto.getCountOfPlaces());
         logger.info("Save room to repository {}", room);
-        Room save = roomRepository.save(room);
+        roomRepository.save(room);
+        Room save = roomRepository.getById(room.getId());
         logger.info("Save room to repository {}", save);
         return save;
     }

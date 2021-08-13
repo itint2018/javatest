@@ -2,10 +2,7 @@ package ru.itintego.javatest.jpa_events;
 
 import ru.itintego.javatest.models.SuperEntity;
 
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
 
 public interface EventListener {
     @PrePersist
@@ -19,4 +16,7 @@ public interface EventListener {
 
     @PostUpdate
     void postUpdate(SuperEntity superEntity);
+
+    @PostLoad
+    void postLoad(SuperEntity superEntity);
 }
