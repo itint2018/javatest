@@ -1,9 +1,14 @@
 package ru.itintego.javatest.controllers.rest;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itintego.javatest.models.ReserveRoom;
+import ru.itintego.javatest.models.User;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
+import ru.itintego.javatest.services.UserDetailsImpl;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -27,12 +32,16 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
     public ReserveRoom findById(Long aLong) {
         return reserveRoomRepository.getById(aLong);
     }
-// TODO:
-//    @GetMapping("/{id}/proof")
-//    public Map<String, String> proof(@PathVariable("id") Long id) {
-//        ReserveRoom byId = reserveRoomRepository.getById(id);
-//        SecurityContextHolder.getContext().getAuthentication().
-//    }
+
+    @GetMapping("{id}/proof")
+    public ReserveRoom proof(@PathVariable Long id) {
+        ReserveRoom byId = reserveRoomRepository.getById(id);
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
+        byId.setProof(user);
+        ReserveRoom save = reserveRoomRepository.save(byId);
+        return save;
+    }
 
     @Override
     public ReserveRoom save(ReserveRoom reserveRoom) {

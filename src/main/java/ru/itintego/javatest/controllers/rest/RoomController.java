@@ -53,7 +53,7 @@ public class RoomController implements DataController<Room, Long> {
     }
 
 
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
+    @Secured({"ROLE_MANAGER"})
     @PostMapping("/new")
     public Room save(@RequestBody SaveRoomDto saveRoomDto) {
         logger.info("Saved room {}", saveRoomDto);
@@ -65,6 +65,19 @@ public class RoomController implements DataController<Room, Long> {
         roomRepository.save(room);
         Room save = roomRepository.getById(room.getId());
         logger.info("Save room to repository {}", save);
+        return save;
+    }
+
+    @Secured({"ROLE_MANAGER"})
+    @PostMapping("/{id}/edit")
+    public Room edit(@RequestBody SaveRoomDto saveRoomDto, @PathVariable Long id) {
+        logger.info("Saved room {}", saveRoomDto);
+        Room edit = roomRepository.getById(id);
+        edit.setName(saveRoomDto.getName());
+        edit.setDescription(saveRoomDto.getDescription());
+        edit.setCountOfPlaces(saveRoomDto.getCountOfPlaces());
+        Room save = roomRepository.save(edit);
+        logger.info("Save room to repository {}", edit);
         return save;
     }
 

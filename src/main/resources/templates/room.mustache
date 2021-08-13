@@ -3,12 +3,14 @@
     <div class="container-fluid">
         <div class="card shadow" style="margin-top: 1rem">
             <div class="card-body">
-                <div style="margin-top: .5rem" class="d-flex justify-content-end">
-                    <button class="btn btn-primary">
-                        <span class="material-icons">edit</span>
-                        <span>Редактировать</span>
-                    </button>
-                </div>
+                {{#isManager}}
+                    <div style="margin-top: .5rem" class="d-flex justify-content-end">
+                        <button class="btn btn-primary" onclick="location.href = '/rooms/{{room.id}}/edit'">
+                            <span class="material-icons">edit</span>
+                            <span>Редактировать</span>
+                        </button>
+                    </div>
+                {{/isManager}}
                 <p>Количество неподтверждных броней: <span class="badge alert-danger">{{countOfUnproofedReserve}}</span>
                 </p>
                 <p>Количество подтвержденных броней: <span
@@ -43,35 +45,33 @@
             <th scope="col">Дата</th>
             <th scope="col">Время</th>
             <th scope="col" class="d-sm-none d-md-block d-none d-sm-block">Описание</th>
-            <th scope="col"></th>
+            {{#isAdminOrSuper}}
+                <th scope="col"></th>
+                <th scope="col"></th>
+            {{/isAdminOrSuper}}
             </thead>
             <tbody>
             {{#roomDetail}}
-                <tr scope="row">
+                <tr scope="row"
+                    {{#isProofed}}class="table-success"{{/isProofed}} {{^isProofed}}class="table-danger"{{/isProofed}}>
                     <td>{{user}}</td>
                     <td>{{date}}</td>
                     <td>{{start}}-{{end}}</td>
                     <td class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
                     {{#isAdminOrSuper}}
                         <td>
-                            <button class="btn btn-success btn-sm"><span class="material-icons text-light"
-                                                                         style="font-size: .75rem">done</span>
+                            <button class="btn btn-success btn-sm"
+                                    onclick="doFetch('/api/reserve_room/{{id}}/proof', 'GET')"><span
+                                    class="material-icons text-light"
+                                    style="font-size: .75rem">done</span>
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-danger btn-sm"><span class="material-icons text-light"
-                                                                        style="font-size: .75rem">close</span>
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="doFetch('/api/reserve_room/{{id}}', 'DELETE')"><span
+                                    class="material-icons text-light"
+                                    style="font-size: .75rem">close</span>
                             </button>
-                        </td>
-                    {{/isAdminOrSuper}}
-                    {{^isAdminOrSuper}}
-                        <td>
-                            {{#isProofed}}
-                                <span class="material-icons text-success">done</span>
-                            {{/isProofed}}
-                            {{^isProofed}}
-                                <span class="material-icons text-danger">close</span>
-                            {{/isProofed}}
                         </td>
                     {{/isAdminOrSuper}}
                 </tr>
@@ -86,4 +86,5 @@
         <button class="btn btn-primary" onclick="location.href='/rooms/{{id}}/reserve'">Забронировать</button>
     </div>
 </div>
+<script src="../../js/app.js"></script>
 {{>footer}}

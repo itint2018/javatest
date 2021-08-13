@@ -1,0 +1,25 @@
+{{>header}}
+<div class="container">
+    <h1>Добавить комнату</h1>
+    <div class="card">
+        <div class="card-body">
+            <form action="/api/rooms/{{id}}/edit" method="POST" onsubmit="OnSubmit(this);return false">
+                {{#room}}
+                    <label class="form-label" for="name">Название комнаты</label>
+                    <input class="form-control" value="{{name}}" type="text" id="name" name="name">
+                    <label class="form-label" for="name">Описание комнаты</label>
+                    <input class="form-control" value="{{description}}" type="text" id="description" name="description">
+                    <label class="form-label" for="name">Количество мест</label>
+                    <input class="form-control" value="{{countOfPlaces}}" type="text" id="countOfPlaces"
+                           name="countOfPlaces">
+                {{/room}}
+                <div class="d-flex justify-content-end" style="margin-top: .5rem">
+                    <button class="btn btn-primary" type="submit">Добавить комнату</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../../js/app.js"></script>
+<script src="../../js/md5_min.js"></script>
+{{>footer}}

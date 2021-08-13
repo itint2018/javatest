@@ -62,6 +62,16 @@ public class RoomsController {
         return modelAndView;
     }
 
+    @Secured({"ROLE_MANAGER"})
+    @RequestMapping("/{id}/edit")
+    public ModelAndView editRoom(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("room_edit");
+        Room byId = roomRepository.getById(id);
+        modelAndView.addObject("header", "Изменить");
+        modelAndView.addObject("room", byId);
+        return modelAndView;
+    }
+
     @RequestMapping()
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("index");
