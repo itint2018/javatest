@@ -35,3 +35,7 @@ build/
 
 ### JPA BUDDY ###
 .jpb
+
+
+### Code generated file ###
+.firstStart

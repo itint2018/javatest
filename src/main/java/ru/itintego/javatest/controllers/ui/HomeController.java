@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import ru.itintego.javatest.repositories.IconRepository;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.repositories.RoomRepository;
 import ru.itintego.javatest.repositories.UserRepository;
@@ -24,13 +26,15 @@ public class HomeController {
     private final RoomRepository roomRepository;
     private final ReserveRoomRepository reserveRoomRepository;
     private final UserRepository userRepository;
+    private final IconRepository iconRepository;
     private final Logger logger;
 
     @Autowired
-    public HomeController(RoomRepository roomRepository, ReserveRoomRepository reserveRoomRepository, UserRepository userRepository, Logger logger) {
+    public HomeController(RoomRepository roomRepository, ReserveRoomRepository reserveRoomRepository, UserRepository userRepository, IconRepository iconRepository, Logger logger) {
         this.roomRepository = roomRepository;
         this.reserveRoomRepository = reserveRoomRepository;
         this.userRepository = userRepository;
+        this.iconRepository = iconRepository;
         this.logger = logger;
     }
 
@@ -64,5 +68,11 @@ public class HomeController {
         cookie1.setValue("");
         httpServletResponse.addCookie(cookie1);
         return "redirect:/auth";
+    }
+
+    @RequestMapping("icon_test")
+    public String iconTest(Model model) {
+        model.addAttribute("icon", iconRepository.findAll());
+        return "icon_test";
     }
 }
