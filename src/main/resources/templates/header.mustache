@@ -28,12 +28,17 @@
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     {{#isManagerOrEmployee}}
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Комнаты</a>
+                            <a class="nav-link" aria-current="page" href="/rooms">Комнаты</a>
                         </li>
                     {{/isManagerOrEmployee}}
+                    {{#isManager}}
+                        <il class="nav-item">
+                            <a class="nav-link" href="/options_room">Опции</a>
+                        </il>
+                    {{/isManager}}
                     {{#isAdmin}}
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Пользователи</a>
+                            <a class="nav-link" href="/admin">Пользователи</a>
                         </li>
                     {{/isAdmin}}
                     <li class="nav-item">
@@ -42,7 +47,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">Выйти</a>
                     </li>
-
                 </ul>
             </div>
         {{/username}}

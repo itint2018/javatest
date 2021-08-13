@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-@Secured("ROLE_ADMIN")
+@Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
 public class AdminController {
 
     private final UserRepository userRepository;

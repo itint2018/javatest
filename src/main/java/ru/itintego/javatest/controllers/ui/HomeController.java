@@ -61,6 +61,7 @@ public class HomeController {
         Cookie[] cookies = httpServletRequest.getCookies();
         Cookie cookie1 = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("idSession")).findFirst().orElseThrow();
         cookie1.setMaxAge(-1);
+        cookie1.setValue("");
         httpServletResponse.addCookie(cookie1);
         return "redirect:/auth";
     }
