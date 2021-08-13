@@ -2,7 +2,6 @@ package ru.itintego.javatest.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -27,4 +26,5 @@ public class Role extends SuperEntity {
     @JsonBackReference
     @JsonIgnoreProperties({"login", "password", "lastName", "firstName", "roles"})
     private List<User> user;
+
 }

@@ -48,6 +48,22 @@ public class SecurityHelper {
                 authority.getAuthority().equals(role.name()));
     }
 
+    public boolean isAdmin() {
+        return hasRole(Role.ROLE_ADMIN);
+    }
+
+    public boolean isManager() {
+        return hasRole(Role.ROLE_MANAGER);
+    }
+
+    public boolean isEmployee() {
+        return hasRole(Role.ROLE_EMPLOYEE);
+    }
+
+    public boolean isManagerOrEmployee() {
+        return hasAnyRole(List.of(Role.ROLE_EMPLOYEE, Role.ROLE_MANAGER));
+    }
+
     public boolean hasAnyRole(List<Role> roles) {
         return roles.stream().anyMatch(this::hasRole);
     }

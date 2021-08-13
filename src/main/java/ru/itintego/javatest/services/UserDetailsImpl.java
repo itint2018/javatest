@@ -51,4 +51,15 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return user.getEnabled();
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDetailsImpl{" +
+                "user=" + user +
+                '}';
+    }
 }

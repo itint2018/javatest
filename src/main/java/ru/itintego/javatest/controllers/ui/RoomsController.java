@@ -19,11 +19,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/rooms")
+@Secured({"ROLE_MANAGER", "ROLE_EMPLOYEE"})
 public class RoomsController {
     private final RoomRepository roomRepository;
     private final ReserveRoomRepository reserveRoomRepository;
@@ -35,7 +37,7 @@ public class RoomsController {
         this.logger = logger;
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
+    @Secured({"ROLE_MANAGER"})
     @RequestMapping("/new")
     public ModelAndView newRoom() {
         ModelAndView modelAndView = new ModelAndView("rooms_new");
@@ -49,7 +51,11 @@ public class RoomsController {
         Room room = roomRepository.getById(id);
         IndexRoomDto indexRoomDto = new IndexRoomDto(room);
         fillingIndexRoomDto(indexRoomDto);
-        List<ReserveRoomDto> roomDetail = reserveRoomRepository.findAllByRoom(room).stream().map(ReserveRoomDto::new).collect(Collectors.toList());
+        List<ReserveRoomDto> roomDetail = reserveRoomRepository.findAllByRoom(room).stream()
+                .sorted(Comparator.comparing(ReserveRoom::getStart))
+                .filter(reserveRoom1 -> reserveRoom1.getStart().isAfter(LocalDateTime.now()))
+                .map(ReserveRoomDto::new)
+                .collect(Collectors.toList());
         modelAndView.addObject("room", indexRoomDto);
         modelAndView.addObject("roomDetail", roomDetail);
         modelAndView.addObject("header", room.getName());
