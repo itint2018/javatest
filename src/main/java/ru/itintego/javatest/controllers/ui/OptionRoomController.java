@@ -2,13 +2,27 @@ package ru.itintego.javatest.controllers.ui;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import ru.itintego.javatest.models.OptionsRoom;
+import ru.itintego.javatest.repositories.OptionsRoomRepository;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/options_room")
 public class OptionRoomController {
 
+    private final OptionsRoomRepository optionsRoomRepository;
+
+    public OptionRoomController(OptionsRoomRepository optionsRoomRepository) {
+        this.optionsRoomRepository = optionsRoomRepository;
+    }
+
     @RequestMapping
-    public String optionsRoom() {
-        return "options_room";
+    public ModelAndView optionsRoom() {
+        ModelAndView modelAndView = new ModelAndView("options_room");
+        List<OptionsRoom> optionsRooms = optionsRoomRepository.findAll();
+        modelAndView.addObject("optionsRoom", optionsRooms);
+        return modelAndView;
     }
 }

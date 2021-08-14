@@ -10,14 +10,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        ИКОНКА
-                    </td>
-                    <td>
-                        Название
-                    </td>
-                </tr>
+                {{#optionsRoom}}
+                    <tr>
+                        <td>
+                            <a class="mdi {{icon}}"></a>
+                        </td>
+                        <td>
+                            <span>{{name}}</span>
+                        </td>
+                    </tr>
+                {{/optionsRoom}}
                 </tbody>
             </table>
         </div>

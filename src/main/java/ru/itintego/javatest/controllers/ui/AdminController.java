@@ -27,4 +27,10 @@ public class AdminController {
         modelAndView.addObject("users", all);
         return modelAndView;
     }
+
+    @RequestMapping("/new")
+    public ModelAndView addUser() {
+        ModelAndView modelAndView = new ModelAndView("users_new");
+        return modelAndView;
+    }
 }
