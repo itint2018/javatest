@@ -29,7 +29,7 @@
                     </thead>
                     <tbody>
                     {{#users}}
-                        <tr scope="row">
+                        <tr scope="row" onclick="location.href = '/admin/{{id}}'">
                             <td>{{login}}</td>
                             <td>{{lastName}}</td>
                             <td>{{firstName}}</td>

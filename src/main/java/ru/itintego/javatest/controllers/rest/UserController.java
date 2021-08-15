@@ -27,7 +27,7 @@ public class UserController implements DataController<User, Long> {
     private final RoleRepository roleRepository;
     private final String defaultPassword;
 
-    public UserController(UserRepository userRepository, RoleRepository roleRepository, @Value("it.intego.meeting_room.default_password") String defaultPassword) {
+    public UserController(UserRepository userRepository, RoleRepository roleRepository, @Value("${it.intego.meeting_room.default_password}") String defaultPassword) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.defaultPassword = defaultPassword;

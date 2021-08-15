@@ -4,13 +4,19 @@
         {{#user}}
             <div class="card-body">
                 <form action="/api/users/{{id}}/edit" method="POST" onsubmit="OnSubmit(this);return false">
-                    <label class="form-label" for="name">Имя</label>
+                    <label class="form-label" for="firstName">Имя</label>
                     <input class="form-control" value="{{firstName}}" type="text" id="firstName" name="firstName">
-                    <label class="form-label" for="name">Фамилия</label>
+                    <div class="valid-feedback" id="firstNameValidator">
+                    </div>
+                    <label class="form-label" for="lastName">Фамилия</label>
                     <input class="form-control" value="{{lastName}}" type="text" id="lastName" name="lastName">
-                    <label class="form-label" for="name">Имя пользователя</label>
+                    <div class="valid-feedback" id="lastNameNameValidator">
+                    </div>
+                    <label class="form-label" for="login">Имя пользователя</label>
                     <input class="form-control" type="text" value="{{login}}" id="login"
                            name="login">
+                    <div class="valid-feedback" id="loginValidator">
+                    </div>
                     <label class="form-label" for="name">Пароль</label>
                     <input class="form-control" type="text" id="pass"
                            name="pass">

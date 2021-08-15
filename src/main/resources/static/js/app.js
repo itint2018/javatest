@@ -49,8 +49,14 @@ async function OnSubmit(param) {
         }
     } else {
         console.log(json)
+        document.getElementById('form').classList.remove("needs-validation")
+        document.getElementById('form').classList.add("was-validated")
+        param.checkValidity()
         json.errors.forEach(error => {
-            document.getElementById(error.field).style += "is-invalid"
+            document.getElementById(error.field).classList.add("is-invalid")
+            let elementId = error.field + "Validator"
+            console.log(elementId)
+            document.getElementById(elementId).innerHTML.replaceAll("", "ТЕСТ")
         })
     }
     return false
