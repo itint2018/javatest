@@ -19,7 +19,11 @@ async function OnSubmit(param) {
     let role = []
     formData.forEach((value, key, parent) => {
         if (key === "pass") {
-            json1[key] = md5(value)
+            if (value !== "") {
+                json1[key] = md5(value)
+            } else {
+                json1[key] = null
+            }
         } else if (key === "role") {
             role.push(value)
             json1[key] = role
@@ -45,6 +49,9 @@ async function OnSubmit(param) {
         }
     } else {
         console.log(json)
+        json.errors.forEach(error => {
+            document.getElementById(error.field).style += "is-invalid"
+        })
     }
     return false
 }

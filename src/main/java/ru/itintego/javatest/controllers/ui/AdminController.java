@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping({"/admin", "/users"})
-@Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
+
 public class AdminController {
 
     private final UserRepository userRepository;
@@ -25,6 +25,7 @@ public class AdminController {
         this.roleRepository = roleRepository;
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @RequestMapping()
     public ModelAndView adminHome() {
         ModelAndView modelAndView = new ModelAndView("admin");
@@ -33,6 +34,7 @@ public class AdminController {
         return modelAndView;
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @RequestMapping("/new")
     public ModelAndView addUser() {
         ModelAndView modelAndView = new ModelAndView("users_new");
@@ -42,6 +44,7 @@ public class AdminController {
     }
 
 
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @RequestMapping("/{id}")
     public ModelAndView userEdit(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("users_edit");

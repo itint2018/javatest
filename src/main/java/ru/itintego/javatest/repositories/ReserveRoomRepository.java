@@ -16,7 +16,7 @@ public interface ReserveRoomRepository extends SuperRepository<ReserveRoom> {
     @Query("select count(r) from ReserveRoom r where (r.proof.id = 0 or r.proof is not null) and r.room = ?1 and r.start > ?2")
     Long countAllByRoom(Room room, LocalDateTime start);
 
-    @Query("select r from ReserveRoom r where r.room = ?1 and r.start <= ?2 and r.end >= ?2")
+    @Query("select r from ReserveRoom r where r.room = ?1 and r.start <= ?2 and r.end >= ?2 and r.proof is not null")
     ReserveRoom findByRoomAndAndStartIsAfter(Room room, LocalDateTime localDateTime);
 
     @Query("select count(r) from ReserveRoom r where (r.start >= ?1 and r.start < ?2 or r.end > ?1 and r.end <= ?2) and r.room = ?3")

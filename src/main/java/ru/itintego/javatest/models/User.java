@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class User extends SuperEntity {
 
-    @Column(name = "login", length = 100)
+    @Column(name = "login", length = 100, unique = true, nullable = false, updatable = false)
     private String login;
 
     @Column(name = "password", length = 100)

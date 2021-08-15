@@ -11,6 +11,7 @@ import ru.itintego.javatest.dto.ReserveDto;
 import ru.itintego.javatest.dto.ReserveRoomDto;
 import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.models.Room;
+import ru.itintego.javatest.repositories.OptionsRoomRepository;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.repositories.RoomRepository;
 
@@ -29,11 +30,13 @@ import java.util.stream.Collectors;
 public class RoomsController {
     private final RoomRepository roomRepository;
     private final ReserveRoomRepository reserveRoomRepository;
+    private final OptionsRoomRepository optionsRoomRepository;
     private final Logger logger;
 
-    public RoomsController(RoomRepository roomRepository, ReserveRoomRepository reserveRoomRepository, Logger logger) {
+    public RoomsController(RoomRepository roomRepository, ReserveRoomRepository reserveRoomRepository, OptionsRoomRepository optionsRoomRepository, Logger logger) {
         this.roomRepository = roomRepository;
         this.reserveRoomRepository = reserveRoomRepository;
+        this.optionsRoomRepository = optionsRoomRepository;
         this.logger = logger;
     }
 

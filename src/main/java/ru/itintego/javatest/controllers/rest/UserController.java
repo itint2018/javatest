@@ -1,6 +1,8 @@
 package ru.itintego.javatest.controllers.rest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,7 @@ import ru.itintego.javatest.repositories.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,10 +25,12 @@ import java.util.stream.Collectors;
 public class UserController implements DataController<User, Long> {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final String defaultPassword;
 
-    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserController(UserRepository userRepository, RoleRepository roleRepository, @Value("it.intego.meeting_room.default_password") String defaultPassword) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.defaultPassword = defaultPassword;
     }
 
     @Override
@@ -45,14 +50,39 @@ public class UserController implements DataController<User, Long> {
 
     @RequestMapping("/new")
     public User save(@Valid @RequestBody SaveUserDto saveUserDto) {
-        Set<Role> collect = saveUserDto.getRole().stream().map(roleRepository::findByName).collect(Collectors.toSet());
         User user = new User();
+        Set<Role> collect = Collections.emptySet();
+        if (saveUserDto.getRole() != null) {
+            collect = saveUserDto.getRole().stream().map(roleRepository::findByName).collect(Collectors.toSet());
+        }
         user.setFirstName(saveUserDto.getFirstName());
         user.setLastName(saveUserDto.getLastName());
         user.setLogin(saveUserDto.getLogin());
-        user.setPassword(saveUserDto.getPass());
+        if (saveUserDto.getPass() != null)
+            user.setPassword(saveUserDto.getPass());
+        else user.setPassword(defaultPassword);
         user.setEnabled(true);
-        user.setRoles(collect);
+        if (!collect.isEmpty())
+            user.setRoles(collect);
+        else user.setRoles(Set.of(roleRepository.findByName("ROLE_EMPLOYEE")));
+        return userRepository.save(user);
+    }
+
+    @RequestMapping("/{id}/edit")
+    public User edit(@Valid @RequestBody SaveUserDto saveUserDto, @PathVariable Long id) {
+        User user = userRepository.getById(id);
+        Set<Role> collect = Collections.emptySet();
+        if (saveUserDto.getRole() != null) {
+            collect = saveUserDto.getRole().stream().map(roleRepository::findByName).collect(Collectors.toSet());
+        }
+        user.setFirstName(saveUserDto.getFirstName());
+        user.setLastName(saveUserDto.getLastName());
+        user.setLogin(saveUserDto.getLogin());
+        if (saveUserDto.getPass() != null)
+            user.setPassword(saveUserDto.getPass());
+        user.setEnabled(true);
+        if (!collect.isEmpty())
+            user.setRoles(collect);
         return userRepository.save(user);
     }
 
