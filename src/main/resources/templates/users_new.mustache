@@ -2,7 +2,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <form action="/api/rooms/users/new" method="POST" onsubmit="OnSubmit(this);return false">
+            <form action="/api/users/new" method="POST" onsubmit="OnSubmit(this);return false">
                 <label class="form-label" for="name">Имя</label>
                 <input class="form-control" type="text" id="firstName" name="firstName">
                 <label class="form-label" for="name">Фамилия</label>
@@ -11,12 +11,14 @@
                 <input class="form-control" type="text" id="login"
                        name="login">
                 <label class="form-label" for="name">Пароль</label>
-                <input class="form-control" type="text" id="password"
-                       name="password">
+                <input class="form-control" type="text" id="pass"
+                       name="pass">
                 <label class="form-label" for="role">Роль</label>
-                <select class="form-select" type="text" id="role"
+                <select multiple="multiple" class="form-select" type="text" id="role"
                         name="role">
-                    <option>TODO: Список ролей из базы?</option>
+                    {{#roles}}
+                        <option value="{{name}}">{{name}}</option>
+                    {{/roles}}
                 </select>
                 <div class="d-flex justify-content-end" style="margin-top: .5rem">
                     <button class="btn btn-primary" type="submit">Добавить пользователя</button>

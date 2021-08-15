@@ -14,15 +14,21 @@ async function doFetch(action, method, json1) {
 async function OnSubmit(param) {
     let message = ''
     let formData = new FormData(param)
+    console.log(formData.serialize)
     let json1 = new Map([])
+    let role = []
     formData.forEach((value, key, parent) => {
-        console.log(value.type)
         if (key === "pass") {
             json1[key] = md5(value)
+        } else if (key === "role") {
+            role.push(value)
+            json1[key] = role
         } else {
             json1[key] = value
         }
     })
+    console.log(role)
+    console.log(json1)
     let action = param.action;
     let method = param.method;
     let {response, json} = await doFetch(action, method, json1);

@@ -1,40 +1,46 @@
 {{>header}}
 <div class="container">
-    <div class="card shadow" style="margin-top: .5rem">
+    <div class="d-flex justify-content-end" style="margin-top: 1rem">
+        <button class="btn btn-primary" onclick="location.href = '/admin/new'">Добавить пользователя</button>
+    </div>
+    <div class="card shadow" style="margin-top: 1rem">
         <div class="card-body">
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-primary" onclick="location.href = '/admin/new'">Добавить пользователя</button>
-            </div>
-            <table class="table table-bordered">
-                <thead>
-                <th scope="col">
-                    Имя пользователя
-                </th>
-                <th scope="col">
-                    Фамилия
-                </th>
-                <th scope="col">
-                    Имя
-                </th>
-                <th scope="col">
-                    Роли
-                </th>
-                <th scope="col">
-                    Включен
-                </th>
-                </thead>
-                <tbody>
-                {{#users}}
-                    <tr scope="row">
-                        <td>{{login}}</td>
-                        <td>{{lastName}}</td>
-                        <td>{{firstName}}</td>
-                        <td>{{rolesSet}}</td>
-                        <td>{{enabled}}</td>
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            Имя пользователя
+                        </th>
+                        <th scope="col">
+                            Фамилия
+                        </th>
+                        <th scope="col">
+                            Имя
+                        </th>
+                        <th scope="col">
+                            Роли
+                        </th>
+                        <th scope="col">
+                            Включен
+                        </th>
                     </tr>
-                {{/users}}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {{#users}}
+                        <tr scope="row">
+                            <td>{{login}}</td>
+                            <td>{{lastName}}</td>
+                            <td>{{firstName}}</td>
+                            <td>{{rolesSet}}</td>
+                            <td>{{enabled}}</td>
+                        </tr>
+                    {{/users}}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>

@@ -1,16 +1,19 @@
 {{>header}}
-{{#room}}
-    <div class="container-fluid">
+
+<div class="container">
+    {{#room}}
+
+        {{#isManager}}
+            <div style="margin-top: 1rem" class="d-flex justify-content-end">
+                <button class="btn btn-primary" onclick="location.href = '/rooms/{{room.id}}/edit'">
+                    <span>Редактировать</span>
+                </button>
+            </div>
+        {{/isManager}}
+
         <div class="card shadow" style="margin-top: 1rem">
             <div class="card-body">
-                {{#isManager}}
-                    <div style="margin-top: .5rem" class="d-flex justify-content-end">
-                        <button class="btn btn-primary" onclick="location.href = '/rooms/{{room.id}}/edit'">
-                            <span class="material-icons">edit</span>
-                            <span>Редактировать</span>
-                        </button>
-                    </div>
-                {{/isManager}}
+
                 <p>Количество неподтверждных броней: <span class="badge alert-danger">{{countOfUnproofedReserve}}</span>
                 </p>
                 <p>Количество подтвержденных броней: <span
@@ -34,57 +37,58 @@
                 </table>
             </div>
         </div>
-    </div>
-{{/room}}
-
-<div class="card shadow" style="margin-top: 1rem">
-    {{^roomDetail.isEmpty}}
-        <table class="table table-bordered">
-            <thead>
-            <th scope="col">Сотрудник</th>
-            <th scope="col">Дата</th>
-            <th scope="col">Время</th>
-            <th scope="col" class="d-sm-none d-md-block d-none d-sm-block">Описание</th>
-            {{#isAdminOrSuper}}
-                <th scope="col"></th>
-                <th scope="col"></th>
-            {{/isAdminOrSuper}}
-            </thead>
-            <tbody>
-            {{#roomDetail}}
-                <tr scope="row"
-                    {{#isProofed}}class="table-success"{{/isProofed}} {{^isProofed}}class="table-danger"{{/isProofed}}>
-                    <td>{{user}}</td>
-                    <td>{{date}}</td>
-                    <td>{{start}}-{{end}}</td>
-                    <td class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
-                    {{#isAdminOrSuper}}
-                        <td>
-                            <button class="btn btn-success btn-sm"
-                                    onclick="doFetch('/api/reserve_room/{{id}}/proof', 'GET')"><span
-                                    class="material-icons text-light"
-                                    style="font-size: .75rem">done</span>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-sm"
-                                    onclick="doFetch('/api/reserve_room/{{id}}', 'DELETE')"><span
-                                    class="material-icons text-light"
-                                    style="font-size: .75rem">close</span>
-                            </button>
-                        </td>
-                    {{/isAdminOrSuper}}
-                </tr>
-            {{/roomDetail}}
-            </tbody>
-        </table>
-    {{/roomDetail.isEmpty}}
-    {{#roomDetail.isEmpty}}
-        <h5 class="text-center">Список пуст</h5>
-    {{/roomDetail.isEmpty}}
-    <div class="d-flex justify-content-end" style="margin-top: .5rem">
-        <button class="btn btn-primary" onclick="location.href='/rooms/{{id}}/reserve'">Забронировать</button>
+    {{/room}}
+    <div class="card shadow" style="margin-top: 1rem">
+        {{^roomDetail.isEmpty}}
+            <table class="table table-bordered">
+                <thead>
+                <th scope="col">Сотрудник</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Время</th>
+                <th scope="col" class="d-sm-none d-md-block d-none d-sm-block">Описание</th>
+                {{#isAdminOrSuper}}
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                {{/isAdminOrSuper}}
+                </thead>
+                <tbody>
+                {{#roomDetail}}
+                    <tr scope="row"
+                        {{#isProofed}}class="table-success"{{/isProofed}} {{^isProofed}}class="table-danger"{{/isProofed}}>
+                        <td>{{user}}</td>
+                        <td>{{date}}</td>
+                        <td>{{start}}-{{end}}</td>
+                        <td class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
+                        {{#isAdminOrSuper}}
+                            <td>
+                                <button class="btn btn-success btn-sm"
+                                        onclick="doFetch('/api/reserve_room/{{id}}/proof', 'GET')"><span
+                                        class="material-icons text-light"
+                                        style="font-size: .75rem">done</span>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="doFetch('/api/reserve_room/{{id}}', 'DELETE')"><span
+                                        class="material-icons text-light"
+                                        style="font-size: .75rem">close</span>
+                                </button>
+                            </td>
+                        {{/isAdminOrSuper}}
+                    </tr>
+                {{/roomDetail}}
+                </tbody>
+            </table>
+        {{/roomDetail.isEmpty}}
+        {{#roomDetail.isEmpty}}
+            <h5 class="text-center">Список пуст</h5>
+        {{/roomDetail.isEmpty}}
+        <div class="d-flex justify-content-end" style="margin: 1rem">
+            <button class="btn btn-primary" onclick="location.href='/rooms/{{id}}/reserve'">Забронировать</button>
+        </div>
     </div>
 </div>
+
+
 <script src="../../js/app.js"></script>
 {{>footer}}

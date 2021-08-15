@@ -34,6 +34,7 @@ public class RoleController implements DataController<Role, Long> {
         return roleRepository.save(role);
     }
 
+
     @Override
     @PutMapping("{id}")
     public Role update(@PathVariable("id") Long aLong, @RequestBody Role role) {
