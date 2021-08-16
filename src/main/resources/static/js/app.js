@@ -111,7 +111,7 @@ async function replaceTable() {
                     minute: "2-digit"
                 })}
                     </td>
-                    <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${reserveRoom.user.lastName} ${reserveRoom.user.firstName}</td>
+                    <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${reserveRoom.user.lastName} ${reserveRoom.user.firstName.charAt(0)}.</td>
                     <td>
                         <button class="btn btn-success btn-sm" onclick="doFetch('/api/reserve_room/${reserveRoom.id}/proof', 'GET');replaceTable()"><span
                                 class="material-icons text-light"

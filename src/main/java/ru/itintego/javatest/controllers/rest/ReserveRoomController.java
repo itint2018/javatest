@@ -1,5 +1,6 @@
 package ru.itintego.javatest.controllers.rest;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
         return reserveRoomRepository.getById(aLong);
     }
 
+    @Secured("ROLE_MANAGER")
     @GetMapping("{id}/proof")
     public ReserveRoom proof(@PathVariable Long id) {
         ReserveRoom byId = reserveRoomRepository.getById(id);
@@ -44,12 +46,14 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
         return save;
     }
 
+    @Secured("ROLE_MANAGER")
     @Override
     public ReserveRoom save(ReserveRoom reserveRoom) {
         return reserveRoomRepository.save(reserveRoom);
     }
 
     @Override
+    @Secured("ROLE_MANAGER")
     public ReserveRoom update(Long aLong, ReserveRoom reserveRoom) {
         if (reserveRoomRepository.existsById(aLong))
             return reserveRoomRepository.save(reserveRoom);
@@ -57,6 +61,7 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
     }
 
     @Override
+    @Secured("ROLE_MANAGER")
     public void delete(Long aLong) {
         reserveRoomRepository.deleteById(aLong);
     }

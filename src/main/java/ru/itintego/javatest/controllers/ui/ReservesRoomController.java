@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/reserve_room")
 public class ReservesRoomController {
@@ -31,7 +33,12 @@ public class ReservesRoomController {
 
 
     @RequestMapping()
-    public String home(Model model) {
-        return "reserve_room_list";
+    public String home(Model model, HttpServletRequest httpServletRequest) {
+        if (httpServletRequest.isUserInRole("ROLE_MANAGER")) {
+            return "reserve_room_list";
+        } else {
+            return "redirect:/rooms";
+        }
+
     }
 }
