@@ -1,0 +1,26 @@
+{{>header}}
+<div class="container">
+    <div class="card shadow">
+        <div class="card_body">
+            <h2>Создать опцию</h2>
+            <div>
+                <p>Выбранный значок: </p>
+                <button class="btn btn-outline-secondary shadow btn-lg">
+                    <a class="mdi {{icon}} text-primary"></a>
+                </button>
+            </div>
+            <form action="/api/options_room/new" method="post" onclick="OnSubmit(this);return false;">
+                <label for="name">Название</label>
+                <input class="form-control" type="text" id="name" name="name">
+                <input class="form-control" type="hidden" value="{{icon}}" id="icon" name="icon">
+                <div class="d-flex justify-content-end" style="margin-top: .5rem">
+                    <button class="btn btn-primary" type="submit">Добавить</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../../js/app.js"></script>
+<script src="../../js/md5_min.js"></script>
+{{>footer}}

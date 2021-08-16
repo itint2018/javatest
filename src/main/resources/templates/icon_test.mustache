@@ -1,9 +1,11 @@
 {{>header}}
 <div class="container">
+    <H2>Выберите значок</H2>
     <div class="row">
         <div class="col">
             {{#icon}}
-                <button class="btn btn-outline-secondary shadow btn-lg" style="margin-left: .25rem; margin-top: .25rem">
+                <button class="btn btn-outline-secondary shadow btn-lg" style="margin-left: .25rem; margin-top: .25rem"
+                        onclick="location.href='/options_room/new/{{name}}'">
                     <a class="mdi {{name}} text-primary"></a>
                 </button>
             {{/icon}}

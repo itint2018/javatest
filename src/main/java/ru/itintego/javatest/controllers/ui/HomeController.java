@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,11 +67,5 @@ public class HomeController {
         cookie1.setValue("");
         httpServletResponse.addCookie(cookie1);
         return "redirect:/auth";
-    }
-
-    @RequestMapping("icon_test")
-    public String iconTest(Model model) {
-        model.addAttribute("icon", iconRepository.findAll());
-        return "icon_test";
     }
 }

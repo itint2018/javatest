@@ -36,6 +36,7 @@ async function OnSubmit(param) {
     let action = param.action;
     let method = param.method;
     let {response, json} = await doFetch(action, method, json1);
+    console.log(json)
     if (response.ok) {
         if (json.hasOwnProperty("idSession")) {
             let urlSearchParams = new URLSearchParams(window.location.search);
@@ -48,16 +49,21 @@ async function OnSubmit(param) {
             location.href = `/${json.clazz}/${json.id}`
         }
     } else {
-        console.log(json)
-        document.getElementById('form').classList.remove("needs-validation")
-        document.getElementById('form').classList.add("was-validated")
-        param.checkValidity()
-        json.errors.forEach(error => {
-            document.getElementById(error.field).classList.add("is-invalid")
-            let elementId = error.field + "Validator"
-            console.log(elementId)
-            document.getElementById(elementId).innerHTML.replaceAll("", "ТЕСТ")
-        })
+        if (json.hasOwnProperty("errors")) {
+            document.getElementById('form').classList.remove("needs-validation")
+            // document.getElementById('form').classList.add("was-validated")
+            json.errors.forEach(error => {
+                document.getElementById(error.field).classList.add("is-invalid")
+                let elementId = error.field + "Validator"
+                console.log(elementId)
+                document.getElementById(elementId).innerHTML.replaceAll("", "ТЕСТ")
+            })
+        } else {
+            document.getElementById("alert").style.visibility = "visible"
+            document.getElementById("alertText").innerText = `${response.status} ${json.message()}`
+        }
+
+
     }
     return false
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.itintego.javatest.models.OptionsRoom;
+import ru.itintego.javatest.repositories.IconRepository;
 import ru.itintego.javatest.repositories.OptionsRoomRepository;
 
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.List;
 public class OptionRoomController {
 
     private final OptionsRoomRepository optionsRoomRepository;
+    private final IconRepository iconRepository;
 
-    public OptionRoomController(OptionsRoomRepository optionsRoomRepository) {
+    public OptionRoomController(OptionsRoomRepository optionsRoomRepository, IconRepository iconRepository) {
         this.optionsRoomRepository = optionsRoomRepository;
+        this.iconRepository = iconRepository;
     }
 
     @RequestMapping
@@ -30,14 +33,14 @@ public class OptionRoomController {
     @RequestMapping("/new")
     public ModelAndView newOptionsRoom() {
         ModelAndView modelAndView = new ModelAndView("icon_test");
-
+        modelAndView.addObject("icon", iconRepository.findAll());
         return modelAndView;
     }
 
-    @RequestMapping("/{id}")
-    public ModelAndView editOptionsRooms(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("icon_test");
-
+    @RequestMapping("/new/{id}")
+    public ModelAndView editOptionsRooms(@PathVariable String id) {
+        ModelAndView modelAndView = new ModelAndView("options_room_form");
+        modelAndView.addObject("icon", id);
         return modelAndView;
     }
 }

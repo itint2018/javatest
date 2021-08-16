@@ -1,14 +1,13 @@
 package ru.itintego.javatest.controllers.rest;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.itintego.javatest.dto.OptionsRoomDto;
 import ru.itintego.javatest.models.OptionsRoom;
 import ru.itintego.javatest.repositories.OptionsRoomRepository;
 import ru.itintego.javatest.repositories.RoomRepository;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,6 +33,15 @@ public class OptionsRoomController implements DataController<OptionsRoom, Long> 
 
     @Override
     public OptionsRoom save(OptionsRoom optionsRoom) {
+        return optionsRoomRepository.save(optionsRoom);
+    }
+
+
+    @PostMapping("/new")
+    public OptionsRoom save(@RequestBody @Valid OptionsRoomDto optionsRoomDto) {
+        OptionsRoom optionsRoom = new OptionsRoom();
+        optionsRoom.setName(optionsRoomDto.getName());
+        optionsRoom.setIcon(optionsRoomDto.getIcon());
         return optionsRoomRepository.save(optionsRoom);
     }
 
