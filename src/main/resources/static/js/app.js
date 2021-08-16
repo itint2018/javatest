@@ -82,7 +82,7 @@ async function onLoadTable() {
 }
 
 async function replaceTable() {
-    let doFetch1 = await doFetch("/api/reserve_room", "GET");
+    let doFetch1 = await doFetch("/api/reserve_room/unproofed", "GET");
     let elementById = document.getElementById("table");
     elementById.innerHTML = ""
     if (doFetch1.response.ok) {

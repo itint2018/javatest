@@ -1,5 +1,6 @@
 package ru.itintego.javatest.controllers.rest;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,11 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
 
     @Override
     public List<ReserveRoom> findAll() {
+        return reserveRoomRepository.findAll(Sort.by(Sort.Direction.DESC, "start"));
+    }
+
+    @GetMapping("/unproofed")
+    public List<ReserveRoom> findAllByStart() {
         return reserveRoomRepository.findAllOrderByStart(LocalDateTime.now());
     }
 
