@@ -11,6 +11,7 @@ import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.services.UserDetailsImpl;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
 
     @Override
     public List<ReserveRoom> findAll() {
-        return reserveRoomRepository.findAll();
+        return reserveRoomRepository.findAllOrderByStart(LocalDateTime.now());
     }
 
     @Override

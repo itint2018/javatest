@@ -11,6 +11,9 @@ import java.util.List;
 public interface ReserveRoomRepository extends SuperRepository<ReserveRoom> {
     List<ReserveRoom> findAllByRoom(Room room);
 
+    @Query("select r from ReserveRoom r where r.start > ?1 order by r.start")
+    List<ReserveRoom> findAllOrderByStart(LocalDateTime localDateTime);
+
     @Query("select count(r) from ReserveRoom r where (r.proof.id = 0 or r.proof is null) and r.room = ?1 and r.start > ?2")
     Long countAllUnproofedRooms(Room room, LocalDateTime start);
 

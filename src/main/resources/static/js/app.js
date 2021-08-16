@@ -50,7 +50,7 @@ async function OnSubmit(param) {
             else location.href = '/'
         } else if (json.hasOwnProperty('clazz')) {
             console.log("ok", json)
-            location.href = `/${json.clazz}/${json.id}`
+            location.href = `/${json.clazz}/`
         } else {
             location.href = `/${location.pathname.split("/")[1]}`
         }
