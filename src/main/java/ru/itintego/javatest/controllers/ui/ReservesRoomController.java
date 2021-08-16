@@ -2,6 +2,7 @@ package ru.itintego.javatest.controllers.ui;
 
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.itintego.javatest.models.ReserveRoom;
@@ -21,15 +22,16 @@ public class ReservesRoomController {
 
 
     @RequestMapping("/{id}")
-    public String toRoom(@PathVariable("id") Long id) {
+    public String toRoom(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("parent", "/reserve_room");
         ReserveRoom byId = reserveRoomRepository.getById(id);
-        return "/rooms/" + byId.getRoom().getId();
+        return "/rooms/" + byId.getRoom().getId() + "/" + byId.getId();
 
     }
 
 
     @RequestMapping()
-    public String home() {
+    public String home(Model model) {
         return "reserve_room_list";
     }
 }

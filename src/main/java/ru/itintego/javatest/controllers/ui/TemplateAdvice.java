@@ -17,7 +17,6 @@ import java.util.Objects;
 @ControllerAdvice
 public class TemplateAdvice {
 
-    private SecurityHelper securityHelper;
     private final Logger logger;
     private final UserDetailsService userDetailsService;
 
@@ -28,7 +27,7 @@ public class TemplateAdvice {
 
     @ModelAttribute
     public void addDefaultAttributes(HttpServletRequest request, Model model) {
-        securityHelper = new SecurityHelper(SecurityContextHolder.getContext());
+        SecurityHelper securityHelper = new SecurityHelper(SecurityContextHolder.getContext());
         String requestURI = request.getRequestURI();
         String parent = href(requestURI);
         logger.info("parent {}", parent);
