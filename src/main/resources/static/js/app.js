@@ -17,6 +17,7 @@ async function OnSubmit(param) {
     console.log(formData.serialize)
     let json1 = new Map([])
     let role = []
+    let optionsRoom = []
     formData.forEach((value, key, parent) => {
         if (key === "pass") {
             if (value !== "") {
@@ -27,6 +28,9 @@ async function OnSubmit(param) {
         } else if (key === "role") {
             role.push(value)
             json1[key] = role
+        } else if (key === "optionsRoom") {
+            optionsRoom.push(value)
+            json1[key] = optionsRoom
         } else {
             json1[key] = value
         }

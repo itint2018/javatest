@@ -3,6 +3,8 @@ package ru.itintego.javatest.dto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Data
 @RequiredArgsConstructor
 public class SaveRoomDto {
@@ -11,4 +13,5 @@ public class SaveRoomDto {
     String description;
     Integer countOfPlaces;
 
+    private List<Long> optionsRoom;
 }

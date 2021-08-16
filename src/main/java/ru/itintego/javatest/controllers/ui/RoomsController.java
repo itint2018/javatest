@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.itintego.javatest.dto.IndexRoomDto;
 import ru.itintego.javatest.dto.ReserveDto;
 import ru.itintego.javatest.dto.ReserveRoomDto;
+import ru.itintego.javatest.models.OptionsRoom;
 import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.repositories.OptionsRoomRepository;
@@ -45,6 +46,8 @@ public class RoomsController {
     public ModelAndView newRoom() {
         ModelAndView modelAndView = new ModelAndView("rooms_new");
         modelAndView.addObject("header", "Добавить комнату");
+        List<OptionsRoom> all = optionsRoomRepository.findAll();
+        modelAndView.addObject("optionsRoom", all);
         return modelAndView;
     }
 

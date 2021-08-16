@@ -1,5 +1,6 @@
 package ru.itintego.javatest.repositories;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.models.Room;
@@ -21,4 +22,9 @@ public interface ReserveRoomRepository extends SuperRepository<ReserveRoom> {
 
     @Query("select count(r) from ReserveRoom r where (r.start >= ?1 and r.start < ?2 or r.end > ?1 and r.end <= ?2) and r.room = ?3")
     Long countAllByStartBetweenAndEndBetweenAndRoom(LocalDateTime start, LocalDateTime end, Room room);
+
+
+    @Modifying
+    @Query("delete from ReserveRoom r where r.room = ?1")
+    void deleteAllByRoom(Room room);
 }

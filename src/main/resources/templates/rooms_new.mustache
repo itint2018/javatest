@@ -10,6 +10,12 @@
                 <input class="form-control" type="text" id="description" name="description">
                 <label class="form-label" for="name">Количество мест</label>
                 <input class="form-control" type="text" id="countOfPlaces" name="countOfPlaces">
+                <label for="optionsRoom">Опции</label>
+                <select class="form-select" multiple="multiple" name="optionsRoom" id="optionsRoom">
+                    {{#optionsRoom}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/optionsRoom}}
+                </select>
                 <div class="d-flex justify-content-end" style="margin-top: .5rem">
                     <button class="btn btn-primary" type="submit">Добавить комнату</button>
                 </div>

@@ -5,6 +5,10 @@
 
         {{#isManager}}
             <div style="margin-top: 1rem" class="d-flex justify-content-end">
+                <button class="btn btn-danger"
+                        onclick="doFetch('/api/rooms/{{id}}', 'DELETE')">
+                    <span>Удалить</span>
+                </button>
                 <button class="btn btn-primary" onclick="location.href = '/rooms/{{room.id}}/edit'">
                     <span>Редактировать</span>
                 </button>
@@ -49,6 +53,7 @@
                 {{#isAdminOrSuper}}
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 {{/isAdminOrSuper}}
                 </thead>
                 <tbody>
@@ -60,6 +65,14 @@
                         <td>{{start}}-{{end}}</td>
                         <td class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
                         {{#isAdminOrSuper}}
+                            <td>
+                                <button class="btn btn-primary btn-sm"
+                                        onclick="location.href = '/rooms/{{room.id}}/{{id}}'">
+                                    <span
+                                            class="material-icons text-light"
+                                            style="font-size: .75rem">edit</span>
+                                </button>
+                            </td>
                             <td>
                                 <button class="btn btn-success btn-sm"
                                         onclick="doFetch('/api/reserve_room/{{id}}/proof', 'GET')"><span
