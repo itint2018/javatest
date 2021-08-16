@@ -56,6 +56,7 @@ public class RoomController implements DataController<Room, Long> {
     }
 
     @Override
+    @Secured({"ROLE_MANAGER"})
     public Room save(Room room) {
         return roomRepository.save(room);
     }
@@ -121,6 +122,7 @@ public class RoomController implements DataController<Room, Long> {
     }
 
     @Override
+    @Secured({"ROLE_MANAGER"})
     public Room update(Long aLong, Room room) {
         if (roomRepository.existsById(aLong))
             return roomRepository.save(room);
@@ -129,6 +131,7 @@ public class RoomController implements DataController<Room, Long> {
 
     @Override
     @Transactional
+    @Secured({"ROLE_MANAGER"})
     public void delete(Long aLong) {
         Room byId = roomRepository.getById(aLong);
         reserveRoomRepository.deleteAllByRoom(byId);

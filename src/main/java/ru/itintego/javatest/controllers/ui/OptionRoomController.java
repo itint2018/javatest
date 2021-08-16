@@ -38,9 +38,17 @@ public class OptionRoomController {
     }
 
     @RequestMapping("/new/{id}")
-    public ModelAndView editOptionsRooms(@PathVariable String id) {
+    public ModelAndView newOptionsRoomStep2(@PathVariable String id) {
         ModelAndView modelAndView = new ModelAndView("options_room_form");
         modelAndView.addObject("icon", id);
+        return modelAndView;
+    }
+
+    @RequestMapping("/{id}")
+    public ModelAndView editOptionsRoom(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("options_room_edit");
+        OptionsRoom byId = optionsRoomRepository.getById(id);
+        modelAndView.addObject("optionsRoom", byId);
         return modelAndView;
     }
 }

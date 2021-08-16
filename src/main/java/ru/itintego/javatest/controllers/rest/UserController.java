@@ -1,5 +1,6 @@
 package ru.itintego.javatest.controllers.rest;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,8 @@ import ru.itintego.javatest.repositories.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -26,11 +29,16 @@ public class UserController implements DataController<User, Long> {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final String defaultPassword;
+    private final MessageDigest hd5Hash;
 
-    public UserController(UserRepository userRepository, RoleRepository roleRepository, @Value("${it.intego.meeting_room.default_password}") String defaultPassword) {
+    public UserController(UserRepository userRepository,
+                          RoleRepository roleRepository,
+                          @Value("${it.intego.meeting_room.default_password}") String defaultPassword,
+                          @Qualifier("md5Hash") MessageDigest hd5Hash) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.defaultPassword = defaultPassword;
+        this.hd5Hash = hd5Hash;
     }
 
     @Override
@@ -60,7 +68,8 @@ public class UserController implements DataController<User, Long> {
         user.setLogin(saveUserDto.getLogin());
         if (saveUserDto.getPass() != null)
             user.setPassword(saveUserDto.getPass());
-        else user.setPassword(defaultPassword);
+        else
+            user.setPassword(new String(hd5Hash.digest(defaultPassword.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8));
         user.setEnabled(true);
         if (!collect.isEmpty())
             user.setRoles(collect);

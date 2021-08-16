@@ -75,6 +75,8 @@ public class RoomsController {
         Room byId = roomRepository.getById(id);
         modelAndView.addObject("header", "Изменить");
         modelAndView.addObject("room", byId);
+        List<OptionsRoom> all = optionsRoomRepository.findAll();
+        modelAndView.addObject("optionsRoom", all);
         return modelAndView;
     }
 

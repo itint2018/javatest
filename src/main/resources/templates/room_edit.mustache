@@ -1,20 +1,26 @@
 {{>header}}
 <div class="container">
-    <h1>Добавить комнату</h1>
+    <h2>Изменить комнату</h2>
     <div class="card">
         <div class="card-body">
             <form action="/api/rooms/{{id}}/edit" method="POST" onsubmit="OnSubmit(this);return false">
                 {{#room}}
                     <label class="form-label" for="name">Название комнаты</label>
                     <input class="form-control" value="{{name}}" type="text" id="name" name="name">
-                    <label class="form-label" for="name">Описание комнаты</label>
+                    <label class="form-label" for="description">Описание комнаты</label>
                     <input class="form-control" value="{{description}}" type="text" id="description" name="description">
-                    <label class="form-label" for="name">Количество мест</label>
+                    <label class="form-label" for="countOfPlaces">Количество мест</label>
                     <input class="form-control" value="{{countOfPlaces}}" type="text" id="countOfPlaces"
                            name="countOfPlaces">
+                    <label for="optionsRoom">Выбранные опции: {{getOptionsRoomString}}</label>
+                    <select class="form-select" \ multiple="multiple" name="optionsRoom" id="optionsRoom">
+                        {{#optionsRoom}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/optionsRoom}}
+                    </select>
                 {{/room}}
                 <div class="d-flex justify-content-end" style="margin-top: .5rem">
-                    <button class="btn btn-primary" type="submit">Добавить комнату</button>
+                    <button class="btn btn-primary" type="submit">Изменить комнату</button>
                 </div>
             </form>
         </div>

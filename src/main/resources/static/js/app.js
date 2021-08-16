@@ -51,6 +51,8 @@ async function OnSubmit(param) {
         } else if (json.hasOwnProperty('clazz')) {
             console.log("ok", json)
             location.href = `/${json.clazz}/${json.id}`
+        } else {
+            location.href = `/${location.pathname.split("/")[1]}`
         }
     } else {
         if (json.hasOwnProperty("errors")) {
@@ -70,4 +72,60 @@ async function OnSubmit(param) {
 
     }
     return false
+}
+
+async function onLoadTable() {
+
+    console.log("ready")
+    await replaceTable()
+    setInterval(replaceTable, 10000)
+}
+
+async function replaceTable() {
+    let doFetch1 = await doFetch("/api/reserve_room", "GET");
+    let elementById = document.getElementById("table");
+    elementById.innerHTML = ""
+    if (doFetch1.response.ok) {
+        doFetch1.json.forEach(reserveRoom => {
+            let classCss
+            if (reserveRoom.proof !== null) {
+                classCss = "table-success"
+            } else {
+                classCss = "table-danger"
+            }
+            let start = new Date(reserveRoom.start)
+            let end = new Date(reserveRoom.end)
+            elementById.innerHTML += (`               
+                <tr name="room1" class="${classCss}">
+                    <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${reserveRoom.room.name}</td>
+                    <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${start.toLocaleString('ru-ru', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            })}<br> ${start.toLocaleTimeString('ru-ru', {
+                hour: "2-digit",
+                minute: "2-digit"
+            })}-${end.toLocaleTimeString('ru-ru',
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })}
+                    </td>
+                    <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${reserveRoom.user.lastName} ${reserveRoom.user.firstName}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="doFetch('/api/reserve_room/${reserveRoom.id}/proof', 'GET');replaceTable()"><span
+                                class="material-icons text-light"
+                                style="font-size: .75rem" >done</span>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="doFetch('/api/reserve_room/${reserveRoom.id}', 'DELETE');replaceTable()"><span
+                                class="material-icons text-light"
+                                style="font-size: .75rem">close</span>
+                        </button>
+                    </td>
+                </tr>`)
+        })
+    }
+
 }

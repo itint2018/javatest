@@ -30,6 +30,6 @@ public class ReservesRoomController {
 
     @RequestMapping()
     public String home() {
-        return "redirect:/rooms";
+        return "reserve_room_list";
     }
 }

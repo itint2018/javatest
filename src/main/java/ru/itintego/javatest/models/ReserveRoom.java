@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -19,8 +18,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ReserveRoom extends SuperEntity {
 
-    @JoinColumn
-    @OneToOne(cascade = {javax.persistence.CascadeType.REMOVE})
+    @OneToOne
     @JsonIgnoreProperties({"countOfPlaces"})
     private Room room;
     @OneToOne

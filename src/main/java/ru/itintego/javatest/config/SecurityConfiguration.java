@@ -1,7 +1,10 @@
 package ru.itintego.javatest.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ru.itintego.javatest.controllers.filter.AuthorizationFilter;
 import ru.itintego.javatest.repositories.UserRepository;
 import ru.itintego.javatest.services.UserServiceDetailImpl;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @EnableWebSecurity
 @Configuration
@@ -76,5 +82,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-
+    @Bean
+    @Qualifier("md5Hash")
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public MessageDigest md5() throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        md5.reset();
+        return md5;
+    }
 }
