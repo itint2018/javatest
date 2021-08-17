@@ -38,7 +38,7 @@ public class TemplateAdvice {
             String fullName = attributeValue.getUser().getLastName() + " " + attributeValue.getUser().getFirstName();
             model.addAttribute("username", fullName);
         }
-        if (!requestURI.equals("/auth")) model.addAttribute("parent", parent);
+        if (!parent.equals("/") && !requestURI.equals("/auth")) model.addAttribute("parent", parent);
         model.addAttribute("isAdminOrSuper", securityHelper.isAdminOrSuper());
         model.addAttribute("isAdmin", securityHelper.isAdmin());
         model.addAttribute("isManager", securityHelper.isManager());
