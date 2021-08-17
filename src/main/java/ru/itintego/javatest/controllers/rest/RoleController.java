@@ -5,7 +5,9 @@ import ru.itintego.javatest.models.Role;
 import ru.itintego.javatest.repositories.RoleRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/roles")
@@ -45,7 +47,8 @@ public class RoleController implements DataController<Role, Long> {
 
     @Override
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Long aLong) {
+    public Map<String, String> delete(@PathVariable("id") Long aLong) {
         roleRepository.deleteById(aLong);
+        return Collections.singletonMap("status", "ok");
     }
 }

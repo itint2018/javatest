@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -103,7 +104,8 @@ public class UserController implements DataController<User, Long> {
     }
 
     @Override
-    public void delete(Long aLong) {
+    public Map<String, String> delete(Long aLong) {
         userRepository.deleteById(aLong);
+        return Collections.singletonMap("status", "ok");
     }
 }

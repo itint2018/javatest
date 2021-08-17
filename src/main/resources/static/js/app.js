@@ -81,6 +81,23 @@ async function onLoadTable() {
     setInterval(replaceTable, 10000)
 }
 
+function formatDate(start) {
+    let startDate = new Date(start)
+    return startDate.toLocaleString('ru-ru', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
+}
+
+function formatTime(start) {
+    let startDate = new Date(start)
+    return startDate.toLocaleTimeString('ru-ru', {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
 async function replaceTable() {
     let doFetch1 = await doFetch("/api/reserve_room/unproofed", "GET");
     let elementById = document.getElementById("table");
@@ -96,30 +113,19 @@ async function replaceTable() {
             let start = new Date(reserveRoom.start)
             let end = new Date(reserveRoom.end)
             elementById.innerHTML += (`               
-                <tr name="room1" class="${classCss}">
+                <tr name="room1" class="${classCss} " >
                     <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${reserveRoom.room.name}</td>
-                    <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${start.toLocaleString('ru-ru', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            })}<br> ${start.toLocaleTimeString('ru-ru', {
-                hour: "2-digit",
-                minute: "2-digit"
-            })}-${end.toLocaleTimeString('ru-ru',
-                {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })}
+                    <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${(formatDate(start))}<br> ${(formatTime(start))}-${formatTime(end)}
                     </td>
                     <td onclick="location.href='/reserve_room/${reserveRoom.id}'">${reserveRoom.user.lastName} ${reserveRoom.user.firstName.charAt(0)}.</td>
                     <td>
-                        <button class="btn btn-success btn-sm" onclick="doFetch('/api/reserve_room/${reserveRoom.id}/proof', 'GET');replaceTable()"><span
+                        <button class="btn btn-success btn-sm" onclick="proofButton(${reserveRoom.id})"><span
                                 class="material-icons text-light"
                                 style="font-size: .75rem" >done</span>
                         </button>
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-sm" onclick="doFetch('/api/reserve_room/${reserveRoom.id}', 'DELETE');replaceTable()"><span
+                        <button class="btn btn-danger btn-sm" onclick="deleteButton(${reserveRoom.id})"><span
                                 class="material-icons text-light"
                                 style="font-size: .75rem">close</span>
                         </button>
@@ -129,3 +135,47 @@ async function replaceTable() {
     }
 
 }
+
+async function deleteButton(id) {
+    await clickButton(`/api/reserve_room/${id}`, 'DELETE');
+}
+
+async function proofButton(id) {
+    await clickButton(`/api/reserve_room/${id}/proof`, 'GET')
+}
+
+async function clickButton(action, method) {
+    let fetchData = await doFetch(action, method);
+    let elementById = document.getElementById("alertPlaceholder")
+
+    elementById.innerHTML = ""
+    let type = ""
+    let message = ""
+    let json = fetchData.json;
+    let key = ""
+
+    if (fetchData.response.ok) {
+        type = "success"
+        if (method !== "DELETE")
+            message = `Резерв комнаты ${json.room.name} ${formatDate(json.start)} ${formatTime(json.start)}-${formatTime(json.end)} ${getMessage(method)}`
+        else message = "Удалено"
+    } else {
+        type = "danger"
+    }
+    elementById.innerHTML += `
+    <div class="alert alert-${type} alert-dismissible" role="alert">${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`
+}
+
+function getMessage(method) {
+    switch (method) {
+        case "GET":
+            return "зарезервирована";
+        case "DELETE":
+            return "удалена";
+        default:
+            return "не известно";
+    }
+}
+

@@ -8,7 +8,9 @@ import ru.itintego.javatest.repositories.RoomRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/options_room")
@@ -53,8 +55,9 @@ public class OptionsRoomController implements DataController<OptionsRoom, Long> 
     }
 
     @Override
-    public void delete(Long aLong) {
+    public Map<String, String> delete(Long aLong) {
         optionsRoomRepository.deleteById(aLong);
+        return Collections.singletonMap("status", "ok");
     }
 
     @GetMapping("/room/{id}")

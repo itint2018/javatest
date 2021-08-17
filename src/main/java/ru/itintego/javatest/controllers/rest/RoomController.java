@@ -22,10 +22,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -129,12 +126,13 @@ public class RoomController implements DataController<Room, Long> {
         else throw new EntityNotFoundException();
     }
 
-    @Override
+
     @Transactional
     @Secured({"ROLE_MANAGER"})
-    public void delete(Long aLong) {
+    public Map<String, String> delete(Long aLong) {
         Room byId = roomRepository.getById(aLong);
         reserveRoomRepository.deleteAllByRoom(byId);
         roomRepository.deleteById(aLong);
+        return Collections.singletonMap("status", "ok");
     }
 }

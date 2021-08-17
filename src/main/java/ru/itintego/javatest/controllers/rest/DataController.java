@@ -3,6 +3,7 @@ package ru.itintego.javatest.controllers.rest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DataController<T, ID> {
     @GetMapping
@@ -18,5 +19,5 @@ public interface DataController<T, ID> {
     T update(@PathVariable("id") ID id, @RequestBody T t);
 
     @DeleteMapping("{id}")
-    void delete(@PathVariable("id") ID id);
+    Map<String, String> delete(@PathVariable("id") ID id);
 }

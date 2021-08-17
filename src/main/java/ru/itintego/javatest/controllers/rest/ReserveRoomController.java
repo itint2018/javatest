@@ -20,7 +20,9 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -102,7 +104,8 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
 
     @Override
     @Secured("ROLE_MANAGER")
-    public void delete(Long aLong) {
+    public Map<String, String> delete(Long aLong) {
         reserveRoomRepository.deleteById(aLong);
+        return Collections.singletonMap("status", "ok");
     }
 }
