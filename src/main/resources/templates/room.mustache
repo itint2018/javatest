@@ -50,6 +50,11 @@
                     <th scope="col">Сотрудник</th>
                     <th scope="col">Дата</th>
                     <th scope="col" class="d-sm-none d-md-block d-none d-sm-block">Описание</th>
+                    {{#isAdminOrSuper}}
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    {{/isAdminOrSuper}}
                 </tr>
 
                 </thead>
@@ -57,9 +62,26 @@
                 {{#roomDetail}}
                     <tr scope="row"
                         {{#isProofed}}class="table-success"{{/isProofed}} {{^isProofed}}class="table-danger"{{/isProofed}}>
-                        <td>{{user}}</td>
-                        <td>{{date}} {{start}}-{{end}}</td>
-                        <td class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
+                        <td onclick="location.href = '/reserve_room/{{id}}'">{{user}}</td>
+                        <td onclick="location.href = '/reserve_room/{{id}}'">{{date}} {{start}}-{{end}}</td>
+                        <td onclick="location.href = '/reserve_room/{{id}}'"
+                            class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
+                        {{#isAdminOrSuper}}
+                            <td>
+                                <button class="btn btn-success btn-sm"
+                                        onclick="doFetch('/api/reserve_room/{{id}}/proof', 'GET')"><span
+                                        class="material-icons text-light"
+                                        style="font-size: .75rem">done</span>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="doFetch('/api/reserve_room/{{id}}', 'DELETE')"><span
+                                        class="material-icons text-light"
+                                        style="font-size: .75rem">close</span>
+                                </button>
+                            </td>
+                        {{/isAdminOrSuper}}
                     </tr>
                 {{/roomDetail}}
                 </tbody>

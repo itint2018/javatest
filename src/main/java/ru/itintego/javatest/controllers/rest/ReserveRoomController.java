@@ -1,29 +1,42 @@
 package ru.itintego.javatest.controllers.rest;
 
+import org.slf4j.Logger;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import ru.itintego.javatest.dto.ReserveDto;
 import ru.itintego.javatest.models.ReserveRoom;
+import ru.itintego.javatest.models.Room;
 import ru.itintego.javatest.models.User;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
+import ru.itintego.javatest.repositories.RoomRepository;
+import ru.itintego.javatest.repositories.UserRepository;
 import ru.itintego.javatest.services.UserDetailsImpl;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reserve_room")
 public class ReserveRoomController implements DataController<ReserveRoom, Long> {
     private final ReserveRoomRepository reserveRoomRepository;
+    private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+    private final Logger logger;
 
 
-    public ReserveRoomController(ReserveRoomRepository reserveRoomRepository) {
+    public ReserveRoomController(ReserveRoomRepository reserveRoomRepository, RoomRepository roomRepository, UserRepository userRepository, Logger logger) {
         this.reserveRoomRepository = reserveRoomRepository;
+        this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
+        this.logger = logger;
     }
 
     @Override
@@ -49,6 +62,27 @@ public class ReserveRoomController implements DataController<ReserveRoom, Long> 
         User user = userDetails.getUser();
         byId.setProof(user);
         ReserveRoom save = reserveRoomRepository.save(byId);
+        return save;
+    }
+
+    @PostMapping
+    @RequestMapping(value = "/{id}/edit")
+    public ReserveRoom save(@PathVariable("id") Long id, @RequestBody ReserveDto reserveDto) {
+        ReserveRoom reserveRoom = reserveRoomRepository.getById(id);
+        Room byId = reserveRoom.getRoom();
+        LocalTime startTime = LocalTime.parse(reserveDto.getTimeStart());
+        LocalTime endTime = LocalTime.parse(reserveDto.getTimeEnd());
+        if (endTime.isBefore(startTime)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "End time is before start time");
+        }
+        LocalDateTime startDateTime = LocalDate.parse(reserveDto.getDate()).atTime(startTime);
+        LocalDateTime endDateTime = LocalDate.parse(reserveDto.getDate()).atTime(endTime);
+        Optional<User> activeUser = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        reserveRoom.setStart(startDateTime);
+        reserveRoom.setEnd(endDateTime);
+        reserveRoom.setDescription(reserveDto.getDescription());
+        reserveRoom.setUser(activeUser.orElseThrow(EntityNotFoundException::new));
+        ReserveRoom save = reserveRoomRepository.save(reserveRoom);
         return save;
     }
 
