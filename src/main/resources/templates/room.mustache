@@ -61,9 +61,9 @@
                 {{#roomDetail}}
                     <tr scope="row"
                         {{#isProofed}}class="table-success"{{/isProofed}} {{^isProofed}}class="table-danger"{{/isProofed}}>
-                        <td onclick="location.href = '/reserve_room/{{id}}'">{{user}}</td>
-                        <td onclick="location.href = '/reserve_room/{{id}}'">{{date}} {{start}}-{{end}}</td>
-                        <td onclick="location.href = '/reserve_room/{{id}}'"
+                        <td onclick="location.href = '/rooms/{{room.id}}/{{id}}'">{{user}}</td>
+                        <td onclick="location.href = '/rooms/{{room.id}}/{{id}}'">{{date}} {{start}}-{{end}}</td>
+                        <td onclick="location.href = '/rooms/{{room.id}}/{{id}}'"
                             class="d-sm-none d-md-block d-none d-sm-block">{{description}}</td>
                         {{#isAdminOrSuper}}
                             <td>

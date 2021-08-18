@@ -16,6 +16,7 @@ import ru.itintego.javatest.repositories.OptionsRoomRepository;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 import ru.itintego.javatest.repositories.RoomRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -100,8 +101,11 @@ public class RoomsController {
     }
 
     @RequestMapping("/{roomId}/{reserveId}")
-    public ModelAndView reserveRoom(@PathVariable("roomId") Long roomId, @PathVariable("reserveId") Long reserveId) {
+    public ModelAndView reserveRoom(@PathVariable("roomId") Long roomId, @PathVariable("reserveId") Long reserveId, HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView("reserve_room_edit");
+        String parent = (String) httpServletRequest.getAttribute("parent");
+        logger.info("getAttribute {}", parent);
+        if (parent != null) modelAndView.addObject("parent", parent);
         ReserveDto reserveDto = new ReserveDto(reserveRoomRepository.getById(reserveId));
         modelAndView.addObject("reserveRoom", reserveDto);
         modelAndView.addObject("header", "Мероприятие " + reserveDto.getDescription());

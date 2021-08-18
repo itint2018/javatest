@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import ru.itintego.javatest.models.ReserveRoom;
 import ru.itintego.javatest.repositories.ReserveRoomRepository;
 
@@ -24,10 +25,10 @@ public class ReservesRoomController {
 
 
     @RequestMapping("/{id}")
-    public String toRoom(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("parent", "/reserve_room");
+    public ModelAndView toRoom(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+        httpServletRequest.setAttribute("parent", "/reserve_room");
         ReserveRoom byId = reserveRoomRepository.getById(id);
-        return "/rooms/" + byId.getRoom().getId() + "/" + byId.getId();
+        return new ModelAndView("forward:/rooms/" + byId.getRoom().getId() + "/" + byId.getId());
 
     }
 
