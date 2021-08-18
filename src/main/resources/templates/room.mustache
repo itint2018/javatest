@@ -6,7 +6,7 @@
         {{#isManager}}
             <div style="margin-top: 1rem" class="d-flex justify-content-end">
                 <button class="btn btn-danger"
-                        onclick="doFetch('/api/rooms/{{id}}', 'DELETE')">
+                        onclick="deleteRoom({{id}})">
                     <span>Удалить</span>
                 </button>
                 <button class="btn btn-primary" onclick="location.href = '/rooms/{{room.id}}/edit'">

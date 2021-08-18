@@ -179,3 +179,10 @@ function getMessage(method) {
     }
 }
 
+async function deleteRoom(id) {
+    let promise = await doFetch(`/api/rooms/${id}`, 'DELETE')
+    if (promise.response.ok) {
+        location.href = '/rooms'
+    }
+}
+
